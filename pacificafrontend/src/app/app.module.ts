@@ -7,17 +7,19 @@ import { AddSheetComponent } from './components/add-sheet/add-sheet.component';
 import { SheetDetailsComponent } from './components/sheet-details/sheet-details.component';
 import { SheetsListComponent } from './components/sheets-list/sheets-list.component';
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SheetService} from "./services/sheet.service";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {MatSliderModule} from "@angular/material/slider";
+import { LoginComponent } from './components/login/login.component';
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
     AddSheetComponent,
     SheetDetailsComponent,
-    SheetsListComponent
+    SheetsListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,8 @@ import {MatSliderModule} from "@angular/material/slider";
     FormsModule,
     HttpClientModule,
     NoopAnimationsModule,
-    MatSliderModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   providers: [
     SheetService
