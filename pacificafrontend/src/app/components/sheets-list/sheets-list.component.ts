@@ -15,7 +15,7 @@ export class SheetsListComponent implements OnInit {
     let result = this.sheetService.deleteAll()
     result.subscribe(k => {
       console.log("got response:", k);
-      this.data = k;
+      this.data = JSON.stringify(k);
     })
   }
 

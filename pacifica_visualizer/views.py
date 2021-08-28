@@ -8,7 +8,7 @@ from pacifica_visualizer.sheets import get_sheet_detail
 
 @api_view(['GET', 'POST', 'DELETE'])
 def sheet_list(request):
-    return JsonResponse(get_sheet_detail(), status=status.HTTP_200_OK)
+    return JsonResponse({"sheet-details": get_sheet_detail()}, status=status.HTTP_200_OK)
     print("returning sheet list")
 
 # GET list of tutorials, POST a new tutorial, DELETE all tutorials
