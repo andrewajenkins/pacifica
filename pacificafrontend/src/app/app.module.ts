@@ -9,6 +9,8 @@ import { SheetsListComponent } from './components/sheets-list/sheets-list.compon
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {SheetService} from "./services/sheet.service";
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSliderModule} from "@angular/material/slider";
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import {SheetService} from "./services/sheet.service";
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    NoopAnimationsModule,
+    MatSliderModule,
   ],
   providers: [
     SheetService
