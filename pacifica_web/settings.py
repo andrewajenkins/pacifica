@@ -60,7 +60,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8081',
 )
 
-ROOT_URLCONF = 'pacifica_web.urls'
+# ROOT_URLCONF = 'pacifica_web.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
