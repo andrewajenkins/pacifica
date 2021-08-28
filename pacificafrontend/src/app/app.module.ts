@@ -8,6 +8,7 @@ import { SheetDetailsComponent } from './components/sheet-details/sheet-details.
 import { SheetsListComponent } from './components/sheets-list/sheets-list.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {SheetService} from "./services/sheet.service";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import {FormsModule} from "@angular/forms";
     FormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    SheetService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

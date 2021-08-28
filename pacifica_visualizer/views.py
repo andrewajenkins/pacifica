@@ -5,8 +5,6 @@ from rest_framework.decorators import api_view
 from pacifica_visualizer.models import Sheet
 from pacifica_visualizer.sheets import get_sheet_detail
 
-...
-
 
 @api_view(['GET', 'POST', 'DELETE'])
 def sheet_list(request):

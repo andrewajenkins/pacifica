@@ -3,13 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Sheet } from '../models/sheet.model';
 
-// @ts-ignore
+
+const baseUrl = 'http://localhost:8000/api/sheet';
+
 @Injectable({
   providedIn: 'root'
 })
-
-const baseUrl = 'http://localhost:8080/api/tutorials';
-
 export class SheetService {
 
   constructor(private http: HttpClient) { }
