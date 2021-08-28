@@ -14,8 +14,20 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
-    ports:
-      - "8000:8000"
+#    ports:
+#      - "8002:8000"
     depends_on:
       - db
     restart: unless-stopped
+  static:
+    build:
+      context: .
+      dockerfile: tools/docker/staticDockerfile
+    expose:
+      - 80
+      - 8001
+      - 8000
+    ports:
+      - "8080:8080"
+      - "8001:8001"
+      - "8000:8000"
