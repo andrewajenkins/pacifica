@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Sheet } from '../models/sheet.model';
+
+// @ts-ignore
 @Injectable({
   providedIn: 'root'
 })
