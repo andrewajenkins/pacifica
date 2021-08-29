@@ -19,6 +19,8 @@ import { UserAdminComponent } from './components/users/user-admin/user-admin.com
 import { UserModeratorComponent } from './components/users/user-moderator/user-moderator.component';
 import { UserUserComponent } from './components/users/user-user/user-user.component';
 import {authInterceptorProviders} from "./services/auth.interceptor";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import {authInterceptorProviders} from "./services/auth.interceptor";
     NoopAnimationsModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatSidenavModule,
+    MatToolbarModule,
   ],
   providers: [
     SheetService,

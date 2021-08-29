@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from "./services/token-storage.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -13,8 +14,15 @@ export class AppComponent implements OnInit {
   showAdminBoard = false;
   showModeratorBoard = false;
   username?: string;
+  options: FormGroup;
 
-  constructor(private tokenStorageService: TokenStorageService) { }
+  constructor(private tokenStorageService: TokenStorageService, fb: FormBuilder) {
+    this.options = fb.group({
+      bottom: 0,
+      fixed: false,
+      top: 0
+    });
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
