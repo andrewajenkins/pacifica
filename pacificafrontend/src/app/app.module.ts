@@ -24,6 +24,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {MatIconModule} from "@angular/material/icon";
     MatListModule,
     MatDividerModule,
     MatIconModule,
+    MatCardModule,
   ],
   providers: [
     SheetService,

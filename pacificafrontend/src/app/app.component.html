@@ -1,9 +1,11 @@
 <ng-container>
   <mat-toolbar class="example-header" color="primary">
-    <span>My App</span>
+    <span>Pacifica Visualizer and Archiver</span>
     <div *ngIf="isLoggedIn">
         <a href="/profile" class="mat-menu-item" routerLink="profile">{{ username }}</a>
         <a href class="mat-menu-item" (click)="logout()">LogOut</a>
+        <span>Logged in as {{ roles }}.</span>
+
     </div>
     <div *ngIf="!isLoggedIn">
       <a href="/register" class="mat-menu-item" routerLink="register">Sign Up</a>
@@ -33,58 +35,10 @@
       </mat-list>
     </mat-sidenav>
 
-    <mat-sidenav-content [formGroup]="options">
+    <mat-sidenav-content [formGroup]="options" style="height: 100%; width: 100%">
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 
-  <mat-toolbar class="example-footer">Footer</mat-toolbar>
+  <mat-toolbar class="example-footer">Code by LeftCoastTech</mat-toolbar>
 </ng-container>
-
-
-<!--<mat-drawer-container class="example-container">-->
-<!--  <mat-drawer mode="side" opened>Drawer content-->
-<!--    <router-outlet></router-outlet>-->
-<!--    <div id="app">-->
-<!--      <nav class="navbar navbar-expand navbar-dark bg-dark">-->
-<!--        <ul class="navbar-nav mr-auto" routerLinkActive="active">-->
-<!--          <li class="nav-item">-->
-<!--            <a href="/home" class="nav-link" routerLink="home">Home </a>-->
-<!--          </li>-->
-<!--          <li class="nav-item" *ngIf="showAdminBoard">-->
-<!--            <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item" *ngIf="showModeratorBoard">-->
-<!--            <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>-->
-<!--          </li>-->
-<!--        </ul>-->
-
-<!--        <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">-->
-<!--          <li class="nav-item">-->
-<!--            <a href="/register" class="nav-link" routerLink="register">Sign Up</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <a href="/login" class="nav-link" routerLink="login">Login</a>-->
-<!--          </li>-->
-<!--        </ul>-->
-
-<!--        <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">-->
-<!--          <li class="nav-item">-->
-<!--            <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>-->
-<!--          </li>-->
-<!--          <li class="nav-item">-->
-<!--            <a href class="nav-link" (click)="logout()">LogOut</a>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </nav>-->
-<!--    </div>-->
-<!--  </mat-drawer>-->
-<!--  <mat-drawer-content>Main content-->
-<!--    <div class="container">-->
-<!--      <router-outlet></router-outlet>-->
-<!--    </div>-->
-<!--  </mat-drawer-content>-->
-<!--</mat-drawer-container>-->
