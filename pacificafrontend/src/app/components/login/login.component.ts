@@ -18,9 +18,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
 
-  emailFormControl = new FormControl('', [
+  usernameFormControl = new FormControl('', [
     Validators.required,
-    Validators.email,
   ]);
 
   passwordFormControl = new FormControl('', [
@@ -37,6 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log("submit!")
     const { username, password } = this.form;
 
     this.authService.login(username, password).subscribe(
@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
         this.reloadPage();
       },
       err => {
+        console.log("ERR!")
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
       }
