@@ -12,7 +12,7 @@ import {UserModeratorComponent} from "./components/users/user-moderator/user-mod
 import {UserAdminComponent} from "./components/users/user-admin/user-admin.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'sheets', component: SheetsListComponent },
   { path: 'sheets/:id', component: SheetDetailsComponent },
   { path: 'add', component: AddSheetComponent },

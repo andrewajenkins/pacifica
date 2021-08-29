@@ -4,7 +4,9 @@
     <div *ngIf="isLoggedIn">
 <!--        <a href="/profile" class="mat-menu-item" routerLink="profile">{{ username }}</a>-->
         <a href class="mat-menu-item" (click)="logout()">LogOut</a>
+      <a href="/home" class="mat-menu-item" mat-flat-button routerLink="home">Home</a>
         <span>Logged in as {{ username }}.</span>
+
     </div>
     <div *ngIf="!isLoggedIn">
       <a href="/register" class="mat-menu-item" routerLink="register">Sign Up</a>
@@ -13,10 +15,7 @@
   </mat-toolbar>
 
   <mat-sidenav-container class="example-container">
-    <mat-sidenav *ngIf="isLoggedIn" #sidenav mode="side" opened class="example-sidenav"
-                 [fixedInViewport]="options.value.fixed" [fixedTopGap]="options.value.top"
-                 [fixedBottomGap]="options.value.bottom">
-      {{options.value.fixed ? 'Fixed' : 'Non-fixed'}} Sidenav
+    <mat-sidenav mode="side" opened>
 
       <mat-list>
         <mat-divider></mat-divider>
@@ -34,8 +33,8 @@
       </mat-list>
     </mat-sidenav>
 
-    <mat-sidenav-content [formGroup]="options" style="height: 100%; width: 100%">
-      <router-outlet></router-outlet>
+    <mat-sidenav-content [formGroup]="options">
+      <main><router-outlet></router-outlet></main>
     </mat-sidenav-content>
   </mat-sidenav-container>
 

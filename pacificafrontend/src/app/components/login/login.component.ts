@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -35,11 +36,13 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
     private userService: UserService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
+      this.router.navigate(['/home'])
       // this.roles = this.tokenStorage.getUser().roles;
     }
   }
@@ -57,7 +60,12 @@ export class LoginComponent implements OnInit {
             this.isLoginFailed = false;
             this.isLoggedIn = true;
             // this.roles = this.tokenStorage.getUser().roles;
+
             this.reloadPage();
+            // this.router.navigate(['/login']).then(k => {
+            //   this.router.navigate(['/home'])
+            // })
+            // window.location.
           }
         )
 
