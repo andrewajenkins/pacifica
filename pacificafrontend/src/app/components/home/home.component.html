@@ -1,4 +1,7 @@
 <p>home works!</p>
+<div *ngFor="let entry of data; let i = index">
+  <a class="mat-menu-item" mat-flat-button [routerLink]="['/note/', i]">{{entry[dateIndex]}} - {{entry[notesIndex]}}</a>
+</div>
 <div class="container">
   <header class="jumbotron">
     <p>{{ content }}</p>

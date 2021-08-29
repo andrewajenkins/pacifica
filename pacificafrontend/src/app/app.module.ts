@@ -25,6 +25,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
+import { NoteComponent } from './components/note/note.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {MatCardModule} from "@angular/material/card";
     ProfileComponent,
     UserAdminComponent,
     UserModeratorComponent,
-    UserUserComponent
+    UserUserComponent,
+    NoteComponent
   ],
   imports: [
     BrowserModule,
