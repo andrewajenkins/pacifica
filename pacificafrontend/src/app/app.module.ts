@@ -21,6 +21,9 @@ import { UserUserComponent } from './components/users/user-user/user-user.compon
 import {authInterceptorProviders} from "./services/auth.interceptor";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatDividerModule} from "@angular/material/divider";
+import {MatListModule} from "@angular/material/list";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -46,6 +49,9 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     ReactiveFormsModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatListModule,
+    MatDividerModule,
+    MatIconModule,
   ],
   providers: [
     SheetService,
