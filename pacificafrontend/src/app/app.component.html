@@ -2,10 +2,9 @@
   <mat-toolbar class="example-header" color="primary">
     <span>Pacifica Visualizer and Archiver</span>
     <div *ngIf="isLoggedIn">
-        <a href="/profile" class="mat-menu-item" routerLink="profile">{{ username }}</a>
+<!--        <a href="/profile" class="mat-menu-item" routerLink="profile">{{ username }}</a>-->
         <a href class="mat-menu-item" (click)="logout()">LogOut</a>
-        <span>Logged in as {{ roles }}.</span>
-
+        <span>Logged in as {{ username }}.</span>
     </div>
     <div *ngIf="!isLoggedIn">
       <a href="/register" class="mat-menu-item" routerLink="register">Sign Up</a>

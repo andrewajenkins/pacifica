@@ -1,23 +1,23 @@
 <mat-card *ngIf="!isLoggedIn" class="example-card" layout="row" layout-fill layout-align="center center">
   <span>Sign In</span>
-  <form class="example-form" (ngSubmit)="form.valid && onSubmit()">
+  <form class="example-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Username</mat-label>
-      <input type="username" matInput [(ngModel)]="form.username" [formControl]="usernameFormControl" placeholder="Username">
+      <input type="username" formControlName="username" matInput [(ngModel)]="form.username" [formControl]="usernameFormControl" placeholder="Username">
       <mat-error *ngIf="usernameFormControl.hasError('required')">
         Username is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="example-full-width" appearance="fill">
       <mat-label>Password</mat-label>
-      <input type="password" matInput [(ngModel)]="form.password" [formControl]="passwordFormControl" placeholder="Password">
+      <input type="password" formControlName="password" matInput [(ngModel)]="form.password" [formControl]="passwordFormControl" placeholder="Password">
       <mat-error *ngIf="passwordFormControl.hasError('required')">
         Password is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <section>
       <div class="example-button-row">
-        <button mat-raised-button type="submit" (click)="onSubmit()">Submit</button>
+        <button mat-raised-button type="submit">Submit</button>
       </div>
     </section>
   </form>
