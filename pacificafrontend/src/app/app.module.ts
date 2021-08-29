@@ -12,6 +12,13 @@ import {SheetService} from "./services/sheet.service";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import {MatInputModule} from "@angular/material/input";
+import { RegisterComponent } from './components/register/register.component';
+import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { UserAdminComponent } from './components/users/user-admin/user-admin.component';
+import { UserModeratorComponent } from './components/users/user-moderator/user-moderator.component';
+import { UserUserComponent } from './components/users/user-user/user-user.component';
+import {authInterceptorProviders} from "./services/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -19,7 +26,13 @@ import {MatInputModule} from "@angular/material/input";
     AddSheetComponent,
     SheetDetailsComponent,
     SheetsListComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    HomeComponent,
+    ProfileComponent,
+    UserAdminComponent,
+    UserModeratorComponent,
+    UserUserComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +44,8 @@ import {MatInputModule} from "@angular/material/input";
     ReactiveFormsModule,
   ],
   providers: [
-    SheetService
+    SheetService,
+    authInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })
