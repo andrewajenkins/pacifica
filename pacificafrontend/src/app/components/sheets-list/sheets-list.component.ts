@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SheetService} from "../../services/sheet.service";
+import {ReportService} from "../../services/report.service";
 
 @Component({
   selector: 'app-sheets-list',
@@ -9,14 +9,14 @@ import {SheetService} from "../../services/sheet.service";
 export class SheetsListComponent implements OnInit {
 
   data = "no data yet";
-  constructor(private sheetService: SheetService) { }
+  constructor(private sheetService: ReportService) { }
 
   ngOnInit(): void {
-    let result = this.sheetService.deleteAll()
-    result.subscribe(k => {
-      console.log("got response test!:", k);
-      this.data = JSON.stringify(k);
-    })
+    // let result = this.sheetService.deleteAll()
+    // result.subscribe(k => {
+    //   console.log("got response test!:", k);
+    //   this.data = JSON.stringify(k);
+    // })
   }
 
 }

@@ -8,7 +8,7 @@ import { SheetDetailsComponent } from './components/sheet-details/sheet-details.
 import { SheetsListComponent } from './components/sheets-list/sheets-list.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {SheetService} from "./services/sheet.service";
+import {ReportService} from "./services/report.service";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import {MatInputModule} from "@angular/material/input";
@@ -25,7 +25,9 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
-import { NoteComponent } from './components/note/note.component';
+import { ReportDetailComponent } from './components/report-detail/report-detail.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -40,7 +42,7 @@ import { NoteComponent } from './components/note/note.component';
     UserAdminComponent,
     UserModeratorComponent,
     UserUserComponent,
-    NoteComponent
+    ReportDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +58,11 @@ import { NoteComponent } from './components/note/note.component';
     MatDividerModule,
     MatIconModule,
     MatCardModule,
+    MatTableModule,
+    MatGridListModule,
   ],
   providers: [
-    SheetService,
+    ReportService,
     authInterceptorProviders
   ],
   bootstrap: [AppComponent]

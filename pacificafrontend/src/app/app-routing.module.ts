@@ -10,7 +10,7 @@ import {ProfileComponent} from "./components/profile/profile.component";
 import {UserUserComponent} from "./components/users/user-user/user-user.component";
 import {UserModeratorComponent} from "./components/users/user-moderator/user-moderator.component";
 import {UserAdminComponent} from "./components/users/user-admin/user-admin.component";
-import {NoteComponent} from "./components/note/note.component";
+import {ReportDetailComponent} from "./components/report-detail/report-detail.component";
 
 const routes: Routes = [
   // { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'user', component: UserUserComponent },
   { path: 'mod', component: UserModeratorComponent },
   { path: 'admin', component: UserAdminComponent },
-  { path: 'note/:id', component: NoteComponent },
+  { path: 'report/:id', component: ReportDetailComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

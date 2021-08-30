@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     this.tokenStorageService.signOut();
+    localStorage.clear();
     window.location.reload();
   }
 }

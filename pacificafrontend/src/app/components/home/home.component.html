@@ -1,9 +1,16 @@
-<p>home works!</p>
-<div *ngFor="let entry of data; let i = index">
-  <a class="mat-menu-item" mat-flat-button [routerLink]="['/note/', i]">{{entry[dateIndex]}} - {{entry[notesIndex]}}</a>
-</div>
-<div class="container">
-  <header class="jumbotron">
-    <p>{{ content }}</p>
-  </header>
-</div>
+<h1>ABCs</h1>
+<mat-nav-list>
+  <div *ngFor="let entry of reportData; let i = index">
+    <a class="mat-menu-item" mat-flat-button [routerLink]="['/report/', i ]" style="margin-left: 100px;">
+      {{entry.timestamp}} - {{entry.client}} - {{entry.staff}} - {{entry.abbr_notes}}
+    </a>
+    <mat-divider></mat-divider>
+  </div>
+</mat-nav-list>
+<br>
+<br>
+<!--<div class="container">-->
+<!--  <header class="jumbotron">-->
+<!--    <p>{{ content }}</p>-->
+<!--  </header>-->
+<!--</div>-->
