@@ -9,10 +9,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class AppComponent implements OnInit {
   title = 'pacificafrontend';
-  roles: string[] = [];
   isLoggedIn = false;
-  showAdminBoard = false;
-  showModeratorBoard = false;
   username?: string;
   options: FormGroup;
 
