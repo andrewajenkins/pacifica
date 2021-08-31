@@ -30,6 +30,11 @@ import {MatTableModule} from "@angular/material/table";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { DailyListComponent } from './components/daily-list/daily-list.component';
 import { ReportTableComponent } from './components/report-table/report-table.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import { AbcListComponent } from './components/abc-list/abc-list.component';
+import {UserService} from "./services/user.service";
+import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+
 
 @NgModule({
   declarations: [
@@ -46,7 +51,8 @@ import { ReportTableComponent } from './components/report-table/report-table.com
     UserUserComponent,
     ReportDetailComponent,
     DailyListComponent,
-    ReportTableComponent
+    ReportTableComponent,
+    AbcListComponent
   ],
   imports: [
     BrowserModule,
@@ -64,10 +70,14 @@ import { ReportTableComponent } from './components/report-table/report-table.com
     MatCardModule,
     MatTableModule,
     MatGridListModule,
+    MatPaginatorModule,
   ],
   providers: [
     ReportService,
-    authInterceptorProviders
+    authInterceptorProviders,
+    UserService,
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    JwtHelperService
   ],
   bootstrap: [AppComponent]
 })

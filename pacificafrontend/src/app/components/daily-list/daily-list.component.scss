@@ -21,6 +21,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-detail {
   overflow: hidden;
   display: flex;
+  //min-width: 200px;
 }
 
 .example-element-diagram {
@@ -38,10 +39,30 @@ tr.example-element-row:not(.example-expanded-row):active {
   line-height: normal;
 }
 
-.example-element-description {
-  padding: 16px;
-}
-
 .example-element-description-attribution {
   opacity: 0.5;
+}
+
+.mat-row {
+  height: auto;
+}
+
+.mat-cell {
+  padding: 5px 12px 2px 12px;
+}
+.mat-header-cell {
+  padding: 0px 12px 0px 12px;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
+  font-size: 14px;
+  padding: 0px 12px 0px 12px;
+}
+
+.mat-list .mat-list-item {
+  height: 20px; /* default is 72px */
+}
+
+.detail-text {
+  margin-right: 20px;
 }

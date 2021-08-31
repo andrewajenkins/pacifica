@@ -14,6 +14,8 @@
         <div *ngIf="isLoggedIn">
           <mat-list-item><a href="/home" class="mat-menu-item" mat-flat-button routerLink="home">Home</a></mat-list-item>
           <mat-divider></mat-divider>
+          <mat-list-item><a href="/abc-list" class="mat-menu-item" routerLink="abc-list">ABCs</a></mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item><a href="/daily-list" class="mat-menu-item" routerLink="daily-list">Dailies</a></mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item><a href class="mat-menu-item" (click)="logout()">LogOut</a></mat-list-item>
@@ -27,5 +29,5 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 
-  <mat-toolbar class="example-footer">Code by LeftCoastTech</mat-toolbar>
+  <mat-toolbar class="example-footer"> ©2021 Left Coast Tech</mat-toolbar>
 </ng-container>

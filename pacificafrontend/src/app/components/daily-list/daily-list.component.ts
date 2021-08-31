@@ -27,7 +27,7 @@ export class DailyListComponent implements OnInit {
   // dataSource = ELEMENT_DATA;
   dataSource: any;
   // columnsToDisplay = ['name', 'weight', 'symbol', 'position'];
-  columnsToDisplay = ['timestamp', 'client', 'staff', 'period', 'notes'];
+  columnsToDisplay = ['timestamp', 'period', 'client', 'staff', 'notes'];
   // expandedElement: PeriodicElement | null | undefined;
   expandedElement: string | null | undefined;
   headers: any;
@@ -39,9 +39,6 @@ export class DailyListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (!this.tokenStorage.getToken()) {
-      this.router.navigate(['/login']);
-    }
     let foundData = localStorage.getItem('dailyData');
     console.log('foundData:', foundData);
     if(foundData) {
@@ -54,11 +51,6 @@ export class DailyListComponent implements OnInit {
         (data: any) => {
           console.log("retrievedData:", data);
           localStorage.setItem('dailyData', JSON.stringify(data));
-          // this.headers = data.pop(0);
-          // console.log("headers:", this.headers)
-          // this.reportData = data;
-          // console.log("reportData:", this.reportData)
-          // this.content = JSON.stringify(data);
           this.dataSource = data;
         },
           (err: { error: string; }) => {

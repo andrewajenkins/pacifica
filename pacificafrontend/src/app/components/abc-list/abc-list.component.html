@@ -1,0 +1,11 @@
+<h1>ABCs</h1>
+<mat-nav-list>
+  <div *ngFor="let entry of reportData; let i = index">
+    <a class="mat-menu-item" mat-flat-button [routerLink]="['/report/', i ]" style="margin-left: 100px;">
+      {{entry.timestamp}} - {{entry.client}} - {{entry.staff}} - {{entry.abbr_notes}}
+    </a>
+    <mat-divider></mat-divider>
+  </div>
+</mat-nav-list>
+<br>
+<br>

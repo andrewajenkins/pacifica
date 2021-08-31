@@ -1,34 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {SheetsListComponent} from "./components/sheets-list/sheets-list.component";
-import {AddSheetComponent} from "./components/add-sheet/add-sheet.component";
-import {SheetDetailsComponent} from "./components/sheet-details/sheet-details.component";
 import {LoginComponent} from "./components/login/login.component";
 import {HomeComponent} from "./components/home/home.component";
-import {RegisterComponent} from "./components/register/register.component";
-import {ProfileComponent} from "./components/profile/profile.component";
-import {UserUserComponent} from "./components/users/user-user/user-user.component";
-import {UserModeratorComponent} from "./components/users/user-moderator/user-moderator.component";
-import {UserAdminComponent} from "./components/users/user-admin/user-admin.component";
 import {ReportDetailComponent} from "./components/report-detail/report-detail.component";
 import {DailyListComponent} from "./components/daily-list/daily-list.component";
+import {AbcListComponent} from "./components/abc-list/abc-list.component";
+import {
+  AuthGuardService as AuthGuard
+} from './services/auth-guard.service';
 
 const routes: Routes = [
-  // { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'sheets', component: SheetsListComponent },
-  { path: 'sheets/:id', component: SheetDetailsComponent },
-  { path: 'add', component: AddSheetComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'user', component: UserUserComponent },
-  { path: 'mod', component: UserModeratorComponent },
-  { path: 'admin', component: UserAdminComponent },
-  { path: 'report/:id', component: ReportDetailComponent },
-  { path: 'daily-list', component: DailyListComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'report/:id', component: ReportDetailComponent, canActivate: [AuthGuard] },
+  { path: 'daily-list', component: DailyListComponent, canActivate: [AuthGuard] },
+  { path: 'abc-list', component: AbcListComponent, canActivate: [AuthGuard]  },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

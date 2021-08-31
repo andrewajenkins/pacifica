@@ -1,16 +1,4 @@
-<h1>ABCs</h1>
-<mat-nav-list>
-  <div *ngFor="let entry of reportData; let i = index">
-    <a class="mat-menu-item" mat-flat-button [routerLink]="['/report/', i ]" style="margin-left: 100px;">
-      {{entry.timestamp}} - {{entry.client}} - {{entry.staff}} - {{entry.abbr_notes}}
-    </a>
-    <mat-divider></mat-divider>
-  </div>
-</mat-nav-list>
-<br>
-<br>
-<!--<div class="container">-->
-<!--  <header class="jumbotron">-->
-<!--    <p>{{ content }}</p>-->
-<!--  </header>-->
-<!--</div>-->
+<h1>Home</h1>
+<mat-card class="example-card" layout="row" layout-fill layout-align="center center">
+  Welcome! Please review the ABCs and Daily Notes using the links on the sidebar to the left.
+</mat-card>
