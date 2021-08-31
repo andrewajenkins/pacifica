@@ -1,16 +1,8 @@
 <ng-container>
-  <mat-toolbar class="example-header" color="primary">
-    <span>Pacifica Visualizer and Archiver</span>
+  <mat-toolbar class="example-header" color="primary" style="width: 100%;">
+    <span>Pacifica Report Visualizer</span>
     <div *ngIf="isLoggedIn">
-<!--        <a href="/profile" class="mat-menu-item" routerLink="profile">{{ username }}</a>-->
-        <a href class="mat-menu-item" (click)="logout()">LogOut</a>
-      <a href="/home" class="mat-menu-item" mat-flat-button routerLink="home">Home</a>
-        <span>Logged in as {{ username }}.</span>
-
-    </div>
-    <div *ngIf="!isLoggedIn">
-      <a href="/register" class="mat-menu-item" routerLink="register">Sign Up</a>
-      <a href="/login" class="mat-menu-item" routerLink="login">Login</a>
+        <span style="margin-left: 60vw;">Logged in as {{ username }}.</span>
     </div>
   </mat-toolbar>
 
@@ -22,12 +14,9 @@
         <div *ngIf="isLoggedIn">
           <mat-list-item><a href="/home" class="mat-menu-item" mat-flat-button routerLink="home">Home</a></mat-list-item>
           <mat-divider></mat-divider>
-<!--          <mat-list-item><a href="/admin" class="mat-menu-item" routerLink="admin">Admin Board</a></mat-list-item>-->
-<!--          <mat-divider></mat-divider>-->
-<!--          <mat-list-item><a href="/mod" class="mat-menu-item" routerLink="mod">Moderator Board</a></mat-list-item>-->
-<!--          <mat-divider></mat-divider>-->
-<!--          <mat-list-item><a href="/user" class="mat-menu-item" *ngIf="isLoggedIn" routerLink="user">User</a></mat-list-item>-->
-<!--          <mat-divider></mat-divider>-->
+          <mat-list-item><a href="/daily-list" class="mat-menu-item" routerLink="daily-list">Dailies</a></mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item><a href class="mat-menu-item" (click)="logout()">LogOut</a></mat-list-item>
         </div>
 
       </mat-list>

@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.db import models
 
 
@@ -13,3 +14,6 @@ class Client(models.Model):
     abcs_id = models.CharField(max_length=200, blank=False, default='')
     am_notes_id = models.CharField(max_length=200, blank=False, default='')
     pm_notes_id = models.CharField(max_length=200, blank=False, default='')
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)

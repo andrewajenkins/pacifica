@@ -15,7 +15,9 @@ class Command(BaseCommand):
             Client.objects.get_or_create(
                 first_name=client['first_name'],
                 last_name=client['last_name'],
-                abcs_id=client['abcs_id']
+                abcs_id=client['abcs_id'],
+                am_notes_id=client['am_notes'],
+                pm_notes_id=client['pm_notes'],
             )
 
         f.close()

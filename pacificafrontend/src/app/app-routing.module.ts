@@ -11,6 +11,7 @@ import {UserUserComponent} from "./components/users/user-user/user-user.componen
 import {UserModeratorComponent} from "./components/users/user-moderator/user-moderator.component";
 import {UserAdminComponent} from "./components/users/user-admin/user-admin.component";
 import {ReportDetailComponent} from "./components/report-detail/report-detail.component";
+import {DailyListComponent} from "./components/daily-list/daily-list.component";
 
 const routes: Routes = [
   // { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'mod', component: UserModeratorComponent },
   { path: 'admin', component: UserAdminComponent },
   { path: 'report/:id', component: ReportDetailComponent },
+  { path: 'daily-list', component: DailyListComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

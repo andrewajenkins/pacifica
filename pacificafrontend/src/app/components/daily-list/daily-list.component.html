@@ -1,0 +1,45 @@
+<h1>Daily Notes</h1>
+
+<table mat-table
+       [dataSource]="dataSource" multiTemplateDataRows
+       class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+<!--        <div class="example-element-name"> {{element.headers}} </div>-->
+<!--        <div class="example-element-weight"> {{element.raw_data}} </div>-->
+<!--        <mat-list role="list">-->
+<!--  <mat-list-item role="listitem">Item 1</mat-list-item>-->
+<!--  <mat-list-item role="listitem">Item 2</mat-list-item>-->
+<!--  <mat-list-item role="listitem">Item 3</mat-list-item>-->
+<!--</mat-list>-->
+        <mat-list role="list">
+          <mat-list-item *ngFor="let entry of element.headers; let i = index">
+            <b>{{entry}}:</b> <i>{{element.raw_data[i]}}</i>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+
+<div class="container">
+  <header class="jumbotron">
+    <p>{{ content }}</p>
+  </header>
+</div>

@@ -11,4 +11,5 @@ export class Report {
   ipp?: string;
   notes?: string;
   abbr_notes?: string;
+  raw_data?: any;
 }

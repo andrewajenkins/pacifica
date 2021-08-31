@@ -16,4 +16,8 @@ export class ReportService {
   getAllABCs(): Observable<Report[]> {
     return this.http.get<Report[]>(baseUrl+"?type=abc");
   }
+
+  getAllDaily(): Observable<Report[]> {
+    return this.http.get<Report[]>(baseUrl+"?type=daily");
+  }
 }

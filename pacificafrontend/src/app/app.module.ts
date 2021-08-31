@@ -28,6 +28,8 @@ import {MatCardModule} from "@angular/material/card";
 import { ReportDetailComponent } from './components/report-detail/report-detail.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatGridListModule} from "@angular/material/grid-list";
+import { DailyListComponent } from './components/daily-list/daily-list.component';
+import { ReportTableComponent } from './components/report-table/report-table.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import {MatGridListModule} from "@angular/material/grid-list";
     UserAdminComponent,
     UserModeratorComponent,
     UserUserComponent,
-    ReportDetailComponent
+    ReportDetailComponent,
+    DailyListComponent,
+    ReportTableComponent
   ],
   imports: [
     BrowserModule,

@@ -35,16 +35,16 @@ export class HomeComponent implements OnInit {
       this.reportData = JSON.parse(foundData);
       this.content = JSON.parse(foundData);
     } else {
-      this.sheetService.getAllABCs().subscribe(
-        data => {
-          localStorage.setItem('abcData', JSON.stringify(data));
-          this.reportData = data;
-          this.content = JSON.stringify(data);
-        },
-        err => {
-          this.content = JSON.parse(err.error).message;
-        }
-      );
+      // this.sheetService.getAllABCs().subscribe(
+      //   data => {
+      //     localStorage.setItem('abcData', JSON.stringify(data));
+      //     this.reportData = data;
+      //     this.content = JSON.stringify(data);
+      //   },
+      //   err => {
+      //     this.content = JSON.parse(err.error).message;
+      //   }
+      // );
     }
   }
 }
