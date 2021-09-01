@@ -1,5 +1,5 @@
 import logging
-from arrow import arrow
+import arrow
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from requests import Response
@@ -43,13 +43,8 @@ class MyTokenObtainPairView(TokenObtainPairView):
         pprint(request.data)
         pprint(vars(request))
 
-        try:
-            serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            raise InvalidToken(e.args[0])
-
         locked_out = False
-        email = request.data.username
+        email = request.data['username']
         cache_results = InvalidLoginAttemptsCache.get(email)
         if cache_results and cache_results.get('lockout_start'):
             lockout_start = arrow.get(cache_results.get('lockout_start'))
@@ -61,6 +56,31 @@ class MyTokenObtainPairView(TokenObtainPairView):
                     _('Too many login attempts, user locked out for 15 minutes'),
                     code='too_many_login_attempts',
                 )
+
+        cache_results = InvalidLoginAttemptsCache.get(email)
+        lockout_timestamp = None
+        now = arrow.utcnow()
+        invalid_attempt_timestamps = cache_results['invalid_attempt_timestamps'] if cache_results else []
+
+        # clear any invalid login attempts from the timestamp bucket that were longer ago than the range
+        for timestamp in invalid_attempt_timestamps:
+            print(str(timestamp))
+        invalid_attempt_timestamps = [timestamp for timestamp in invalid_attempt_timestamps if timestamp() > now.shift(minutes=-15).timestamp()]
+
+        # add this current invalid login attempt to the timestamp bucket
+        invalid_attempt_timestamps.append(now.timestamp)
+        # check to see if the user has enough invalid login attempts to lock them out
+        if len(invalid_attempt_timestamps) >= 5:
+            lockout_timestamp = now.timestamp
+            # This is also where you'll need to add an error to the form to both prevent their successful authentication and let the user know
+        # Add a cache entry. If they've already got one, this will overwrite it, otherwise it's a new one
+        print(f"setting: {email}, {invalid_attempt_timestamps}, {lockout_timestamp}")
+        InvalidLoginAttemptsCache.set(email, invalid_attempt_timestamps, lockout_timestamp)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
