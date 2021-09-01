@@ -1,13 +1,15 @@
 import logging
+from datetime import datetime, timedelta
+
 import arrow
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from requests import Response
 
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import serializers, status
 from django.utils.translation import gettext_lazy as _
+from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken, AuthenticationFailed
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -39,16 +41,12 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        from pprint import pprint
-        pprint(request.data)
-        pprint(vars(request))
 
-        locked_out = False
         email = request.data['username']
         cache_results = InvalidLoginAttemptsCache.get(email)
         if cache_results and cache_results.get('lockout_start'):
             lockout_start = arrow.get(cache_results.get('lockout_start'))
-            locked_out = lockout_start >= arrow.utcnow().shift(minutes=-15)
+            locked_out = lockout_start >= arrow.utcnow().shift(minutes=-10)
             if not locked_out:
                 InvalidLoginAttemptsCache.delete(email)
             else:
@@ -59,21 +57,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
         cache_results = InvalidLoginAttemptsCache.get(email)
         lockout_timestamp = None
-        now = arrow.utcnow()
         invalid_attempt_timestamps = cache_results['invalid_attempt_timestamps'] if cache_results else []
 
-        # clear any invalid login attempts from the timestamp bucket that were longer ago than the range
         for timestamp in invalid_attempt_timestamps:
             print(str(timestamp))
-        invalid_attempt_timestamps = [timestamp for timestamp in invalid_attempt_timestamps if timestamp() > now.shift(minutes=-15).timestamp()]
 
-        # add this current invalid login attempt to the timestamp bucket
-        invalid_attempt_timestamps.append(now.timestamp)
-        # check to see if the user has enough invalid login attempts to lock them out
-        if len(invalid_attempt_timestamps) >= 5:
-            lockout_timestamp = now.timestamp
-            # This is also where you'll need to add an error to the form to both prevent their successful authentication and let the user know
-        # Add a cache entry. If they've already got one, this will overwrite it, otherwise it's a new one
+        invalid_attempt_timestamps =\
+            [timestamp for timestamp in invalid_attempt_timestamps if datetime.now() > (datetime.now() - timedelta(minutes=15))]
+
+        invalid_attempt_timestamps.append(datetime.now())
+        if len(invalid_attempt_timestamps) >= 10:
+            lockout_timestamp = datetime.now()
+
         print(f"setting: {email}, {invalid_attempt_timestamps}, {lockout_timestamp}")
         InvalidLoginAttemptsCache.set(email, invalid_attempt_timestamps, lockout_timestamp)
 
