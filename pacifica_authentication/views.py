@@ -40,10 +40,12 @@ class UserAPIView(RetrieveAPIView):
 class MyTokenObtainPairView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
+        logger.info("post")
         serializer = self.get_serializer(data=request.data)
-
+        logger.info(f"data: {request.data}")
         email = request.data['username']
         cache_results = InvalidLoginAttemptsCache.get(email)
+        logger.info(f"cache_results: {cache_results}")
         if cache_results and cache_results.get('lockout_start'):
             lockout_start = arrow.get(cache_results.get('lockout_start'))
             locked_out = lockout_start >= arrow.utcnow().shift(minutes=-10)
@@ -58,18 +60,17 @@ class MyTokenObtainPairView(TokenObtainPairView):
         cache_results = InvalidLoginAttemptsCache.get(email)
         lockout_timestamp = None
         invalid_attempt_timestamps = cache_results['invalid_attempt_timestamps'] if cache_results else []
-
         for timestamp in invalid_attempt_timestamps:
             print(str(timestamp))
+            logger.info(f"timestamp: {str(timestamp)}")
 
         invalid_attempt_timestamps =\
             [timestamp for timestamp in invalid_attempt_timestamps if datetime.now() > (datetime.now() - timedelta(minutes=15))]
-
+        logger.info(f"invalid_attempt_timestamps: {invalid_attempt_timestamps}")
         invalid_attempt_timestamps.append(datetime.now())
         if len(invalid_attempt_timestamps) >= 10:
             lockout_timestamp = datetime.now()
-
-        print(f"setting: {email}, {invalid_attempt_timestamps}, {lockout_timestamp}")
+        logger.info(f"setting: {email}, {invalid_attempt_timestamps}, {lockout_timestamp}")
         InvalidLoginAttemptsCache.set(email, invalid_attempt_timestamps, lockout_timestamp)
 
         try:

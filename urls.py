@@ -4,7 +4,6 @@ from django.urls import path
 from pacifica_authentication.views import UserAPIView, MyTokenObtainPairView
 
 from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
     TokenRefreshView,
 )
 
