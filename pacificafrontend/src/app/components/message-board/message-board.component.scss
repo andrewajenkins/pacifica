@@ -1,0 +1,65 @@
+h1 {
+  display: block;
+  text-align: center;
+  margin-block-end: 26px;
+  margin-block-start: 26px;
+  font-size: 26px;
+}
+.text-center {
+  text-align: center;
+}
+
+mat-form-field {
+  margin-right: 12px;
+}
+
+mat-form-field {
+  min-height: 75px;
+  min-width: 700px;
+}
+
+textarea {
+  min-height: 75px;
+}
+
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+mat-card {
+  //padding: 10px 10px 10px 10px;
+  //margin: 10px 30px 10px 10px;
+}
+
+.message-input {
+    margin: 10px 30px 10px 10px;
+
+}

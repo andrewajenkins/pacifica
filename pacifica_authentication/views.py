@@ -29,11 +29,8 @@ class UserAPIView(RetrieveAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
-        print("get_object")
         from pprint import pprint
-        pprint(vars(self.request))
-        pprint(vars(self.request.user))
-
+        logger.info(f"logging in user: {self.request.user}")
         return self.request.user
 
 

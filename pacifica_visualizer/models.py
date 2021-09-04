@@ -17,3 +17,10 @@ class Client(models.Model):
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
+
+
+class Message(models.Model):
+    timestamp = models.CharField(max_length=70, blank=False, default='TIMESTAMP')
+    username = models.CharField(max_length=70, blank=False, default='USERNAME')
+    message = models.CharField(max_length=500, blank=False, default='MESSAGE')
+    user = models.CharField(max_length=70, blank=False, default='USER')

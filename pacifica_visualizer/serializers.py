@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Sheet
+from .models import Sheet, Message
 
 
 class SheetSerializer(serializers.ModelSerializer):
@@ -9,3 +9,12 @@ class SheetSerializer(serializers.ModelSerializer):
                   'address',
                   'name',
                   'active')
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ('id',
+                  'timestamp',
+                  'username',
+                  'message',
+                  'user')

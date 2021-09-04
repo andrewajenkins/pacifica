@@ -30,6 +30,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
+import { MessageBoardComponent } from './components/message-board/message-board.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {MatChipsModule} from "@angular/material/chips";
     ReportDetailComponent,
     DailyListComponent,
     ReportTableComponent,
-    AbcListComponent
+    AbcListComponent,
+    MessageBoardComponent
   ],
   imports: [
     BrowserModule,

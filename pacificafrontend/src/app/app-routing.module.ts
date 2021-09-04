@@ -8,13 +8,15 @@ import {AbcListComponent} from "./components/abc-list/abc-list.component";
 import {
   AuthGuardService as AuthGuard
 } from './services/auth-guard.service';
+import {MessageBoardComponent} from "./components/message-board/message-board.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'report/:id', component: ReportDetailComponent, canActivate: [AuthGuard] },
   { path: 'daily-list', component: DailyListComponent, canActivate: [AuthGuard] },
-  { path: 'abc-list', component: AbcListComponent, canActivate: [AuthGuard]  },
+  { path: 'abc-list', component: AbcListComponent, canActivate: [AuthGuard] },
+  { path: 'message-board', component: MessageBoardComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: '' }
 ];

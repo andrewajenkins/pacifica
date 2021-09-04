@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -150,3 +150,48 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_false": {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'simple': {
+            'format': '[%(asctime)s] %(levelname)s %(message)s',
+        'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
+        'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    "handlers": {
+        'console': { # writes to the console
+            'class': 'logging.StreamHandler',
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'formatter': 'verbose'
+        },
+    },
+    "loggers": {
+        'django': {
+            'handlers': [
+                'console',
+                ],
+            'level': 'INFO',
+        },
+        '': {
+            'handlers': [
+                'console',
+               ],
+            'level': 'INFO',
+        },
+    },
+    "version": 1
+}
