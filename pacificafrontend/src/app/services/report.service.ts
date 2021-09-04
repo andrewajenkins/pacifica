@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import { Report } from '../models/report.model';
 
 
-const baseUrl = 'http://localhost:8000/api/report';
+const baseUrl = 'http://52.35.184.192:8000/api/report';
 
 @Injectable({
   providedIn: 'root'
