@@ -22,4 +22,8 @@ export class ReportDetailComponent implements OnInit {
     this.data = foundData![this.reportId];
     this.header = Object.keys(this.data);
   }
+
+  click() {
+    this.router.navigate(['/abc-list']);
+  }
 }

@@ -30,6 +30,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  font-size: 12px;
 }
 
 section {
@@ -66,4 +67,46 @@ section {
 
 .example-spacer {
   flex: 1 1 auto;
+}
+
+.flexExpand {
+    flex: 1 1 auto;
+}
+
+section {
+  display: table;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  min-width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 490px;
+}
+
+.example-button-row .mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 12px 5px 12px;
 }

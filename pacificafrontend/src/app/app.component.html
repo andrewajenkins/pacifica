@@ -1,6 +1,7 @@
 <ng-container>
   <mat-toolbar class="example-header" color="primary" style="width: 100%;">
     <span>Pacifica Report Visualizer</span>
+    <span class="flexExpand"></span>
     <div *ngIf="isLoggedIn">
         <span style="margin-left: 60vw;">Logged in as {{ username }}.</span>
     </div>
@@ -12,7 +13,7 @@
       <mat-list>
         <mat-divider></mat-divider>
         <div *ngIf="isLoggedIn">
-          <mat-list-item><a href="/home" class="mat-menu-item" mat-flat-button routerLink="home">Home</a></mat-list-item>
+          <mat-list-item><a mat-button routerLink="['/home/']">Home</a></mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item><a href="/abc-list" class="mat-menu-item" routerLink="abc-list">ABCs</a></mat-list-item>
           <mat-divider></mat-divider>
