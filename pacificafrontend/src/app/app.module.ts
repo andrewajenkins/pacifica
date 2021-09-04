@@ -26,6 +26,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import { AbcListComponent } from './components/abc-list/abc-list.component';
 import {UserService} from "./services/user.service";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
     MatTableModule,
     MatGridListModule,
     MatPaginatorModule,
+    MatOptionModule,
+    MatSelectModule,
   ],
   providers: [
     ReportService,

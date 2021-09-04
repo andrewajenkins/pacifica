@@ -14,9 +14,5 @@ export class HomeComponent implements OnInit {
     private tokenStorage: TokenStorageService,
   ) { }
 
-  ngOnInit(): void {
-    if (!this.tokenStorage.getToken()) {
-      this.router.navigate(['/login']);
-    }
-  }
+  ngOnInit(): void {}
 }
