@@ -4,6 +4,7 @@ import { TokenStorageService } from '../../services/token-storage.service';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
+import {ReportService} from "../../services/report.service";
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private router: Router,
     private userService: UserService,
+    private reportService: ReportService,
   ) { }
 
   ngOnInit(): void {
@@ -59,16 +61,11 @@ export class LoginComponent implements OnInit {
         this.userService.getUser().subscribe(
           data => {
             console.log('returned user:', data);
+            this.reportService.triggerDataUpdate().subscribe()
             this.tokenStorage.saveUser(data);
             this.isLoginFailed = false;
             this.isLoggedIn = true;
-            // this.roles = this.tokenStorage.getUser().roles;
-
             this.reloadPage();
-            // this.router.navigate(['/login']).then(k => {
-            //   this.router.navigate(['/home'])
-            // })
-            // window.location.
           }
         )
 

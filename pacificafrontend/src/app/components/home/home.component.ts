@@ -13,11 +13,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
-    private reportService: ReportService,
   ) { }
 
   ngOnInit(): void {
     console.log("init home page - query abc data...")
-    this.reportService.triggerDataUpdate().subscribe();
   }
 }
