@@ -62,7 +62,3 @@ class DailyNote(models.Model):
     class Meta:
         unique_together = ('timestamp', 'client', 'staff', 'notes')
         ordering = ['-timestamp']
-
-
-    # def __init__(self, json_data):
-    #     self.json_data = json_data
