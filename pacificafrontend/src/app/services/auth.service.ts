@@ -28,17 +28,20 @@ export class AuthService {
   }
 
   register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post(AUTH_API + 'signup/', {
+    const result = this.http.post(AUTH_API + 'signup/', {
       username,
       email,
       password
     }, httpOptions);
+    console.log("register result:", result);
+    return result;
   }
 
   public isAuthenticated(): boolean {
     // const token = localStorage.getItem('token');
     // Check whether the token is expired and return
     // true or false
+    console.log("auth: checking auth:", !this.jwtHelper.isTokenExpired(this.tokenStorageService.getToken()!))
     return !this.jwtHelper.isTokenExpired(this.tokenStorageService.getToken()!);
   }
 }

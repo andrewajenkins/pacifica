@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
 
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
+      console.log("user:", user);
       this.username = JSON.parse(user).username;
     }
   }

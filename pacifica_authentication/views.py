@@ -34,7 +34,7 @@ class UserAPIView(RetrieveAPIView):
         pprint(vars(self.request))
         pprint(vars(self.request.user))
 
-        return None
+        return self.request.user
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
