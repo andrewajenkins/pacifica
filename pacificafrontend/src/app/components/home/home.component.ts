@@ -14,5 +14,7 @@ export class HomeComponent implements OnInit {
     private tokenStorage: TokenStorageService,
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("init home page - do nothing...")
+  }
 }

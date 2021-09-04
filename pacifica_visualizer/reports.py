@@ -69,10 +69,11 @@ def get_abcs():
                 ipp_index = i
 
         header_row = client_values.pop(0)
-        for report in client_values:
+        for index, report in enumerate(client_values):
             print("length:" + str(len(report)))
             print(report)
             report_dict = {
+                "id": index,
                 "timestamp": report[timestamp_index].split(" ")[0],
                 "client": client.first_name,
                 "staff": report[staff_index],

@@ -40,8 +40,10 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("init login page")
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
+      console.log("init login page: routing to home")
       this.router.navigate(['/home'])
       // this.roles = this.tokenStorage.getUser().roles;
     }
@@ -79,6 +81,7 @@ export class LoginComponent implements OnInit {
   }
 
   reloadPage(): void {
+    console.log("reload page")
     window.location.reload();
   }
 }

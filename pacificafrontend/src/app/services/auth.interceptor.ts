@@ -15,8 +15,12 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authReq = req;
     const token = this.token.getToken();
-    if(!token) this.router.navigate(['/login']);
+    if(!token) {
+      console.log("no token, redirecting to login!")
+      this.router.navigate(['/login']);
+    }
     if (token != null) {
+      console.log("found token, clone something...")
       authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
     }
     return next.handle(authReq);
