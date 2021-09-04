@@ -17,9 +17,10 @@ export class ReportDetailComponent implements OnInit {
 
   ngOnInit(): void {
     let foundData = JSON.parse(localStorage.getItem('abcData')!)
-    if(!foundData) this.router.navigate(['/login']);
     this.reportId = this.route.snapshot.paramMap.get('id');
-    this.data = foundData![this.reportId];
+    this.data = foundData!.find((r: { id: any; }) => {
+      return r.id == this.reportId;
+    });
     this.header = Object.keys(this.data);
   }
 

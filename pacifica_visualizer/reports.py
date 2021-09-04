@@ -25,6 +25,7 @@ def get_abcs():
 
     sheet = service.spreadsheets()
     reports = []
+    record_index = 0;
     for client in Client.objects.all():
         print(client.first_name)
         timestamp_index = 0
@@ -73,7 +74,7 @@ def get_abcs():
             print("length:" + str(len(report)))
             print(report)
             report_dict = {
-                "id": index,
+                "id": record_index,
                 "timestamp": report[timestamp_index].split(" ")[0],
                 "client": client.first_name,
                 "staff": report[staff_index],
@@ -83,6 +84,7 @@ def get_abcs():
                 "behavior": report[behavior_index],
                 "consequence": report[consequence_index],
             }
+            record_index += 1
             if 9 < len(report):
                 report_dict["ipp"] = report[ipp_index]
             if notes_index < len(report):

@@ -28,6 +28,8 @@ import {UserService} from "./services/user.service";
 import {JWT_OPTIONS, JwtHelperService} from "@auth0/angular-jwt";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 @NgModule({
@@ -59,6 +61,8 @@ import {MatSelectModule} from "@angular/material/select";
     MatPaginatorModule,
     MatOptionModule,
     MatSelectModule,
+    MatAutocompleteModule,
+    MatChipsModule,
   ],
   providers: [
     ReportService,
