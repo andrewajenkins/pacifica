@@ -10,6 +10,6 @@ export class Report {
   consequence?: string;
   ipp?: string;
   notes?: string;
-  abbr_notes?: string;
   raw_data?: any;
+  headers?: any;
 }

@@ -20,4 +20,10 @@ export class ReportService {
   getAllDaily(): Observable<Report[]> {
     return this.http.get<Report[]>(baseUrl+"?type=daily");
   }
+
+  triggerDataUpdate(): Observable<void> {
+    return this.http.post<void>(baseUrl, {
+      trigger_data_update: true
+    })
+  }
 }

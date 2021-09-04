@@ -4,29 +4,42 @@ from datetime import datetime
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
-from pacifica_visualizer.models import Message
-from pacifica_visualizer.reports import get_abcs, get_daily
-from pacifica_visualizer.serializers import MessageSerializer
+from pacifica_visualizer.models import Message, ABC, DailyNote
+from pacifica_visualizer.reports import get_abcs, get_daily, update_abcs, update_dailies
+from pacifica_visualizer.serializers import MessageSerializer, ABCSerializer, DailyNoteSerializer
 
 logger = logging.getLogger(__name__)
 
 
-@api_view(['GET'])
-def report_list(request):
-    if request.query_params.get('type') == 'abc':
-        return JsonResponse(get_abcs(), status=status.HTTP_200_OK, safe=False)
-    elif request.query_params.get('type') == 'daily':
-        return JsonResponse(get_daily(), status=status.HTTP_200_OK, safe=False)
-    else:
-        raise LookupError("Failed to find query type")
+class ReportView(APIView):
+    def get(self, request):
+        if request.query_params.get('type') == 'abc':
+            abcs = ABC.objects.all()
+            abc_data = ABCSerializer(abcs, many=True).data
+            return Response(abc_data, status.HTTP_200_OK)
+            # return JsonResponse(get_abcs(), status=status.HTTP_200_OK, safe=False)
+        elif request.query_params.get('type') == 'daily':
+            dailies = DailyNote.objects.all()
+            dailies_data = DailyNoteSerializer(dailies, many=True).data
+            return Response (dailies_data, status.HTTP_200_OK)
+            # return JsonResponse(get_daily(), status=status.HTTP_200_OK, safe=False)
+        else:
+            raise LookupError("Failed to find query type")
+
+    def post(self, request):
+        trigger_data_update = request.data.get("trigger_data_update", None)
+        if trigger_data_update:
+            update_abcs()
+            update_dailies()
+
+        return Response(status.HTTP_204_NO_CONTENT)
 
 
 class MessageView(APIView):
     def get(self, request):
-        all_messages = reversed(Message.objects.all())
+        all_messages = Message.objects.all()
         response = MessageSerializer(all_messages, many=True).data
         return Response(response, status.HTTP_200_OK)
 
@@ -39,9 +52,7 @@ class MessageView(APIView):
         return Response(status.HTTP_204_NO_CONTENT)
 
     def put(self, request):
-        print('halp!')
-
-        return Response('derp', status.HTTP_200_OK)
+        return Response(status.HTTP_200_OK)
 
     def delete(self, request):
         message_id = request.query_params.get('pk', None)

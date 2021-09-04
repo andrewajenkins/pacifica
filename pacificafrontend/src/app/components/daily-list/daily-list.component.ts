@@ -20,15 +20,8 @@ import {Report} from "../../models/report.model";
 export class DailyListComponent implements OnInit {
   reportData: any;
   content: any;
-  // columnsToDisplay: any;
-  // dataSource: any;
-  // expandedElement: any;
-
-  // dataSource = ELEMENT_DATA;
   dataSource: any;
-  // columnsToDisplay = ['name', 'weight', 'symbol', 'position'];
   columnsToDisplay = ['timestamp', 'period', 'client', 'staff', 'notes'];
-  // expandedElement: PeriodicElement | null | undefined;
   expandedElement: string | null | undefined;
   headers: any;
 
@@ -49,6 +42,10 @@ export class DailyListComponent implements OnInit {
     } else {
       this.sheetService.getAllDaily().subscribe(
         (data: any) => {
+          data.forEach((k: Report) => {
+            k.headers = JSON.parse(k.headers);
+            k.raw_data = JSON.parse(k.raw_data);
+          })
           console.log("retrievedData:", data);
           localStorage.setItem('dailyData', JSON.stringify(data));
           this.dataSource = data;

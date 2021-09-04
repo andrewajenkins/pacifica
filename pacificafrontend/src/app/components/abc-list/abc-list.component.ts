@@ -9,6 +9,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {map, startWith} from "rxjs/operators";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-abc-list',
@@ -23,7 +24,7 @@ export class AbcListComponent implements OnInit {
   clients: string[] = [];
   selected: any = 'All';
   dataSource: any;
-  displayedColumns: string[] = ['timestamp', 'client', 'staff', 'notes']
+  displayedColumns: string[] = ['timestamp', 'client', 'staff', 'behavior']
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
   // auto-complete chip
@@ -63,6 +64,10 @@ export class AbcListComponent implements OnInit {
     } else {
       this.sheetService.getAllABCs().subscribe(
         (data: Report[]) => {
+          data.forEach((k: Report) => {
+            k.timestamp = new DatePipe('en-US').transform(k.timestamp, "M/d/yy h:mm a")!
+            return;
+          })
           localStorage.setItem('abcData', JSON.stringify(data));
           this.reportData = data;
           this.allData = data;

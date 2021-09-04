@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TokenStorageService} from "../../services/token-storage.service";
 import {Router} from "@angular/router";
+import {ReportService} from "../../services/report.service";
 
 @Component({
   selector: 'app-home',
@@ -12,9 +13,11 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
+    private reportService: ReportService,
   ) { }
 
   ngOnInit(): void {
-    console.log("init home page - do nothing...")
+    console.log("init home page - query abc data...")
+    this.reportService.triggerDataUpdate().subscribe();
   }
 }
