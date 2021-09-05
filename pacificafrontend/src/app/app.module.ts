@@ -31,6 +31,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import { MessageBoardComponent } from './components/message-board/message-board.component';
+import { ArchiveComponent } from './components/archive/archive.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { MessageBoardComponent } from './components/message-board/message-board.
     DailyListComponent,
     ReportTableComponent,
     AbcListComponent,
-    MessageBoardComponent
+    MessageBoardComponent,
+    ArchiveComponent
   ],
   imports: [
     BrowserModule,

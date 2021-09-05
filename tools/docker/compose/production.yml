@@ -15,11 +15,15 @@ services:
     image: 437884575683.dkr.ecr.us-west-2.amazonaws.com/pacifica-website-private:pacifica-web-0-1
     ports:
       - "8000:8000"
+      - "587:587"
+      - "25:25"
     depends_on:
       - db
     command: python manage.py runserver 0.0.0.0:8000
     expose:
       - 8000
+      - 587
+      - 25
   static:
     image: 437884575683.dkr.ecr.us-west-2.amazonaws.com/pacifica-website-private:pacifica-frontend-0-1
     ports:

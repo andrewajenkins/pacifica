@@ -1,0 +1,17 @@
+<h1 class="text-center">Archive Reports</h1>
+<mat-card class="example-card" layout="row" layout-fill layout-align="center center">
+  <mat-card-title-group>
+    <div class="card-text">Please select the number of days you want to archive and then download the pdf file by clicking on the archive button.</div>
+    <section>
+      <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label># Days to archive</mat-label>
+          <input matInput #archiveInput value="1">
+        </mat-form-field>
+      </form>
+      <div class="example-button-row example-button-container">
+        <button mat-raised-button (click)="archiveClick(archiveInput.value)">Archive</button>
+      </div>
+    </section>
+  </mat-card-title-group>
+</mat-card>

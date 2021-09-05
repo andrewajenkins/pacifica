@@ -22,7 +22,7 @@ RUN set -ex ;\
 FROM nginx:latest
 
 # Copy the build output to replace the default nginx contents.
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY tools/docker/static/config/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /src/dist/pacificafrontend /usr/share/nginx/html
 
 # Expose port 80

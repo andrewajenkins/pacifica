@@ -1,13 +1,12 @@
 import logging
 from datetime import datetime
 
-from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 
 from pacifica_visualizer.models import Message, ABC, DailyNote
-from pacifica_visualizer.reports import get_abcs, get_daily, update_abcs, update_dailies
+from pacifica_visualizer.reports import update_abcs, update_dailies, archive_reports
 from pacifica_visualizer.serializers import MessageSerializer, ABCSerializer, DailyNoteSerializer
 
 logger = logging.getLogger(__name__)
@@ -19,21 +18,21 @@ class ReportView(APIView):
             abcs = ABC.objects.all()
             abc_data = ABCSerializer(abcs, many=True).data
             return Response(abc_data, status.HTTP_200_OK)
-            # return JsonResponse(get_abcs(), status=status.HTTP_200_OK, safe=False)
         elif request.query_params.get('type') == 'daily':
             dailies = DailyNote.objects.all()
             dailies_data = DailyNoteSerializer(dailies, many=True).data
             return Response (dailies_data, status.HTTP_200_OK)
-            # return JsonResponse(get_daily(), status=status.HTTP_200_OK, safe=False)
+        elif request.query_params.get('type') == 'file':
+            return archive_reports(request.query_params.get('days'))
         else:
             raise LookupError("Failed to find query type")
 
     def post(self, request):
+        logger.info("POST to trigger updates!")
         trigger_data_update = request.data.get("trigger_data_update", None)
         if trigger_data_update:
             update_abcs()
             update_dailies()
-
         return Response(status.HTTP_204_NO_CONTENT)
 
 
