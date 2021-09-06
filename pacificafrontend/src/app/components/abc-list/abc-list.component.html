@@ -10,10 +10,11 @@
 </mat-form-field>
 
 <mat-form-field class="example-chip-list" appearance="fill">
-  <mat-label>IPP Goal</mat-label>
+  <mat-label *ngIf="selected=='All'">IPP Goals</mat-label>
+  <mat-label *ngIf="selected!='All'">{{selected}} IPP Goals</mat-label>
   <mat-chip-list #chipList aria-label="Fruit selection">
     <mat-chip
-      *ngFor="let fruit of fruits"
+      *ngFor="let fruit of ipps"
       [selectable]="selectable"
       [removable]="removable"
       (removed)="remove(fruit)">
@@ -23,14 +24,14 @@
     <input
       placeholder="New IPP goal..."
       #fruitInput
-      [formControl]="fruitCtrl"
+      [formControl]="ippCtrl"
       [matAutocomplete]="auto"
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)">
   </mat-chip-list>
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
-    <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedIPP($event)">
+    <mat-option *ngFor="let fruit of filteredIPPs" [value]="fruit">
       {{fruit}}
     </mat-option>
   </mat-autocomplete>

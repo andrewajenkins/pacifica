@@ -4,11 +4,9 @@ import {Router} from "@angular/router";
 import {TokenStorageService} from "../../services/token-storage.service";
 import {ReportService} from "../../services/report.service";
 import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {map, startWith} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 
 @Component({
@@ -19,11 +17,10 @@ import {DatePipe} from "@angular/common";
 export class AbcListComponent implements OnInit {
   content?: string;
   data?: string[][];
-  reportData: Report[] = [];
   allData: Report[] = [];
   clients: string[] = [];
   selected: any = 'All';
-  dataSource: any;
+  dataSource: Report[];
   displayedColumns: string[] = ['timestamp', 'client', 'staff', 'behavior']
   columnsToDisplay: string[] = this.displayedColumns.slice();
 
@@ -31,36 +28,22 @@ export class AbcListComponent implements OnInit {
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = [];
-  allIpps: string[] = [];
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement> | undefined;
+  ippCtrl = new FormControl();
+  filteredIPPs: string[];
+  ipps: string[] = [];
+
+  @ViewChild('fruitInput') ippInput: ElementRef<HTMLInputElement> | undefined;
 
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
     private sheetService: ReportService,
-  ) {
-      this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allIpps.slice()));
-  }
+  ) {}
 
   ngOnInit(): void {
     let foundData = localStorage.getItem('abcData');
-    console.log("foundData:", foundData);
     if(foundData) {
-      this.reportData = JSON.parse(foundData);
-      this.content = JSON.parse(foundData);
-      this.dataSource = JSON.parse(foundData);
-      this.allData = JSON.parse(foundData);
-      this.allIpps = this.allData.filter(r => {
-        if(this.selected === 'All') return true;
-        return r.client === this.selected
-      }).map(k => k.ipp!);
-      console.log("this.allData:", this.allData);
-      this.setClientOptions();
+      this.initializeData(JSON.parse(foundData));
     } else {
       this.sheetService.getAllABCs().subscribe(
         (data: Report[]) => {
@@ -69,19 +52,7 @@ export class AbcListComponent implements OnInit {
             return;
           })
           localStorage.setItem('abcData', JSON.stringify(data));
-          this.reportData = data;
-          this.allData = data;
-          this.dataSource = data;
-          this.content = JSON.stringify(data);
-          this.allIpps = data.filter(r => {
-            if(this.selected === 'All') return true;
-            return r.client === this.selected
-          }).map(k => k.ipp!);
-          console.log("ipps:", data.filter(r => {
-            if(this.selected === 'All') return true;
-            return r.client === this.selected
-          }).map(k => k.ipp!))
-          this.setClientOptions();
+          this.initializeData(data);
         },
         err => {
           this.content = JSON.parse(err.error).message;
@@ -91,33 +62,26 @@ export class AbcListComponent implements OnInit {
 
   }
 
+  initializeData(data: Report[]) {
+    this.allData = data;
+    this.dataSource = data;
+    this.content = JSON.stringify(data);
+    this.filterIPPs();
+    this.setClientOptions();
+  }
+
   onlyUnique(value: any, index: any, self: string | any[]) {
     return self.indexOf(value) === index;
   }
 
   setClientOptions() {
-
-    console.log("this.allData:", this.allData);
     let clientList = this.allData.map((d: Report) => d?.client!).filter(this.onlyUnique);
-    console.log("clientList:", clientList);
     this.clients = ['All'].concat(this.allData.map((d: Report) => d?.client!).filter(this.onlyUnique));
   }
 
   onClientSelect() {
-    this.reportData = this.selected === 'All'
-      ? this.allData
-      : this.allData.filter((report: Report) => {
-          return report.client === this.selected;
-        })
-    this.dataSource = this.selected === 'All'
-      ? this.allData
-      : this.allData.filter((report: Report) => {
-          return report.client === this.selected;
-        })
-    this.allIpps = this.allData.filter(r => {
-        if(this.selected === 'All') return true;
-        return r.client === this.selected
-      }).map(k => k.ipp!).filter(this.onlyUnique);
+    this.filterABCs();
+    this.filterIPPs();
   }
 
   add(event: MatChipInputEvent): void {
@@ -125,40 +89,55 @@ export class AbcListComponent implements OnInit {
 
     // Add our fruit
     if (value) {
-      this.fruits.push(value);
+      this.ipps.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
 
-    this.fruitCtrl.setValue(null);
+    this.ippCtrl.setValue(null);
+    this.filterABCs();
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(ipp: string): void {
+    const index = this.ipps.indexOf(ipp);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.ipps.splice(index, 1);
     }
 
     this.dataSource = this.allData;
     this.onClientSelect();
   }
 
-  selectedFruit(event: MatAutocompleteSelectedEvent): void {
-    console.log("select chip!:", event);
-    this.fruits.push(event.option.viewValue);
+  selectedIPP(event: MatAutocompleteSelectedEvent): void {
+    this.ipps.push(event.option.viewValue);
     // @ts-ignore
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
-    this.dataSource = this.dataSource.filter((k: { ipp: any; }) => {
-      return k.ipp === event.option.value;
-    })
+    this.ippInput.nativeElement.value = '';
+    this.ippCtrl.setValue(null);
+    this.filterABCs()
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-// this.allData.filter(r => r.client === this.selected).map(k => k.ipp!);
-    return this.allIpps.filter(fruit => fruit?.toLowerCase().includes(filterValue));
+  private filterIPPs() {
+    this.filteredIPPs = this.allData.filter(r => {
+      if(this.selected === 'All') return true;
+      return r.client === this.selected
+    }).map(k => k.ipp!).filter(ipp => ipp?.indexOf("Outcome") !== -1)
+    .filter(this.onlyUnique).concat(['Other'])
+    .sort();
+  }
+
+  private filterABCs() {
+    this.dataSource = this.allData.filter((report: Report) => {
+        if(this.selected === 'All') return true;
+        return report.client === this.selected
+      })
+      .filter((k: Report) => {
+        if(this.ipps.length) {
+          let ippIsInList = this.ipps.includes(k.ipp!);
+          let isOtherAndInclude = this.ipps.includes("Other") && k.ipp?.indexOf("Outcome") === -1;
+          return ippIsInList || isOtherAndInclude;
+        } else return true;
+      });
   }
 }
