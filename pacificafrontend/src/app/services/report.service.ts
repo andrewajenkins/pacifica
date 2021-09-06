@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Report } from '../models/report.model';
+import {environment} from "../../environments/environment";
 
-const baseUrl = 'http://localhost:8000/api/report';
+const baseUrl = environment.apiUrl + ':8000/api/report';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   getAllABCs(): Observable<Report[]> {
     return this.httpClient.get<Report[]>(baseUrl+"?type=abc");

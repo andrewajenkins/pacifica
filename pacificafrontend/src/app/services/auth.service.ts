@@ -3,9 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import {TokenStorageService} from "./token-storage.service";
+import {environment} from "../../environments/environment";
 
-const AUTH_API = 'http://localhost:8000/api/';
-
+const baseUrl = environment.apiUrl+':8000/api/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -14,34 +14,30 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
+
   constructor(
     private http: HttpClient,
     public jwtHelper: JwtHelperService,
     private tokenStorageService: TokenStorageService,
-  ) { }
+  ) {}
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(AUTH_API + 'token/', {
+    return this.http.post(baseUrl + 'token/', {
       username,
       password
     }, httpOptions);
   }
 
   register(username: string, email: string, password: string): Observable<any> {
-    const result = this.http.post(AUTH_API + 'signup/', {
+    const result = this.http.post(baseUrl + 'signup/', {
       username,
       email,
       password
     }, httpOptions);
-    console.log("register result:", result);
     return result;
   }
 
   public isAuthenticated(): boolean {
-    // const token = localStorage.getItem('token');
-    // Check whether the token is expired and return
-    // true or false
-    console.log("auth: checking auth:", !this.jwtHelper.isTokenExpired(this.tokenStorageService.getToken()!))
     return !this.jwtHelper.isTokenExpired(this.tokenStorageService.getToken()!);
   }
 }
