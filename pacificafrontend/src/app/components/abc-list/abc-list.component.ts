@@ -79,7 +79,8 @@ export class AbcListComponent implements OnInit {
     this.clients = ['All'].concat(this.allData.map((d: Report) => d?.client!).filter(this.onlyUnique));
   }
 
-  onClientSelect() {
+  onClientSelectChange(client?: any) {
+    if(client) this.selected = client;
     this.filterABCs();
     this.filterIPPs();
   }
@@ -107,7 +108,7 @@ export class AbcListComponent implements OnInit {
     }
 
     this.dataSource = this.allData;
-    this.onClientSelect();
+    this.onClientSelectChange();
   }
 
   selectedIPP(event: MatAutocompleteSelectedEvent): void {

@@ -1,13 +1,6 @@
 <h1 class="text-center">ABCs</h1>
 
-<mat-form-field appearance="fill">
-  <mat-label>Client</mat-label>
-  <mat-select (selectionChange)="onClientSelect()" [(value)]="selected">
-    <mat-option *ngFor="let client of clients" [value]="client">
-      {{client}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+<app-clientselector [clients]="clients" (clientSelectedOutput)="onClientSelectChange($event)"></app-clientselector>
 
 <mat-form-field class="example-chip-list" appearance="fill">
   <mat-label *ngIf="selected=='All'">IPP Goals</mat-label>

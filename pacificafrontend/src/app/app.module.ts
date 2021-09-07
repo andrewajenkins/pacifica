@@ -32,6 +32,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import { MessageBoardComponent } from './components/message-board/message-board.component';
 import { ArchiveComponent } from './components/archive/archive.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ClientselectorComponent } from './components/clientselector/clientselector.component';
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import { ArchiveComponent } from './components/archive/archive.component';
     ReportTableComponent,
     AbcListComponent,
     MessageBoardComponent,
-    ArchiveComponent
+    ArchiveComponent,
+    DashboardComponent,
+    ClientselectorComponent
   ],
   imports: [
     BrowserModule,
