@@ -14,8 +14,8 @@
       <div class="example-element-detail"
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         <mat-list role="list">
-          <mat-list-item *ngFor="let entry of element.headers; let i = index">
-            <div class="detail-text">{{entry}}:<b>{{element.raw_data[i]}}</b></div>
+          <mat-list-item style="height: auto;" *ngFor="let entry of element.headers; let i = index">
+            <div class="detail-text">{{entry}}: <b>{{element.raw_data[i]}}</b></div>
           </mat-list-item>
         </mat-list>
       </div>
