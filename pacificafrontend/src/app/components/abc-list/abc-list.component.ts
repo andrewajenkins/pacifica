@@ -37,7 +37,7 @@ export class AbcListComponent implements OnInit {
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
-    private sheetService: ReportService,
+    private reportService: ReportService,
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class AbcListComponent implements OnInit {
     if(foundData) {
       this.initializeData(JSON.parse(foundData));
     } else {
-      this.sheetService.getAllABCs().subscribe(
+      this.reportService.getAllABCs().subscribe(
         (data: Report[]) => {
           data.forEach((k: Report) => {
             k.timestamp = new DatePipe('en-US').transform(k.timestamp, "M/d/yy h:mm a")!

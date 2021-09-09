@@ -10,6 +10,7 @@ import {
 } from './services/auth-guard.service';
 import {MessageBoardComponent} from "./components/message-board/message-board.component";
 import {ArchiveComponent} from "./components/archive/archive.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'abc-list', component: AbcListComponent, canActivate: [AuthGuard] },
   { path: 'message-board', component: MessageBoardComponent, canActivate: [AuthGuard] },
   { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: '' }
 ];
