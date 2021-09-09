@@ -96,31 +96,51 @@ export class DashboardComponent implements OnInit {
     console.log("setup start:", this.dataSource);
     this.dataSource = this.allData.filter((report: Report) => {
         console.log("selected:", this.selected);
-        if(this.selected === 'All') {
+        if(this.selected === 'All' || !this.selected)
           return true;
-        }
         return report.client === this.selected;
-      });
+    }).filter(this.onlyUnique).sort();
     // get ipp count
     let ippCounts: {
       [key: string]: number,
     } = {};
     console.log("setup:", this.dataSource);
+    function getIpp(ippStr: string) {
+      if(ippStr && ippStr.includes("Outcome"))
+        return ippStr;
+      else
+        return "Other";
+    }
     this.dataSource.forEach((d: Report) => {
       let ipp: string = d.ipp!;
-      if(ippCounts.hasOwnProperty(ipp)) {
-        console.log("increment:", ippCounts);
-        ippCounts[ipp]++;
+      console.log('forEach:', ipp);
+      let ippCategory = getIpp(ipp);
+      if(ippCounts.hasOwnProperty(ippCategory)) {
+        console.log("increment:", ippCategory);
+        ippCounts[ippCategory]++;
       } else {
-        console.log("init:", ippCounts);
-        ippCounts[ipp] = 1;
+        console.log("init:", ippCategory);
+        ippCounts[ippCategory] = 1;
       }
     });
     console.log("ippCounts:", ippCounts);
-    let newDataSource: {[key: string]: number|string}[] = [];
+    interface IppQuarterlyCount {
+      ipp: string,
+      quarterly: number
+    }
+    let newDataSource: IppQuarterlyCount[] = [];//{[key: string]: number|string}[] = [];
     Object.keys(ippCounts).forEach(k => {
       newDataSource.push({ipp: k, quarterly: ippCounts[k]});
     })
+    newDataSource.sort(function (a, b) {
+      // if(typeof a.ipp == 'string' && a.ipp.includes("Other")) return -1;
+      if(a.ipp > b.ipp) return 1;
+      if(b.ipp > a.ipp) return -1;
+      return 0;
+    });
+    let otherElement: IppQuarterlyCount = newDataSource.shift()!;
+    newDataSource.push(otherElement!);
+    console.log("result:", newDataSource);
     this.dataSource = newDataSource;
   }
 }
