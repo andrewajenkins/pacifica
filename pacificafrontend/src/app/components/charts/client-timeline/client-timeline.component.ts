@@ -30,13 +30,15 @@ export class ClientTimelineComponent implements OnInit {
     if (changes.client) {
       this.client = changes.client.currentValue;
       this.graphService.getClientABCTimeline(this.client).subscribe((response: any[]) => {
-        if(!this.svg) this.createSvg();
+        this.createSvg();
         this.drawBars(response);
       })
     }
   }
 
   private createSvg(): void {
+    // this.svg.selectAll("*").remove();
+    if(this.svg) this.svg = d3.select("figure#"+this.id+" svg").remove();
     this.svg = d3.select("figure#"+this.id)
       .append("svg")
       .attr("width", this.width + (this.margin * 2))
@@ -46,7 +48,7 @@ export class ClientTimelineComponent implements OnInit {
   }
 
   private drawBars(data: any[]): void {
-    console.log("domain:", data.map(entry => entry.timestamp))
+    console.log("data:", data);
     // Create the X-axis band scale
     const x = d3.scaleBand()
       .range([0, this.width])
