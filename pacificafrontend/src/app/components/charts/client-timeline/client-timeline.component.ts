@@ -33,7 +33,7 @@ export class ClientTimelineComponent implements OnInit {
       this.client = changes.client.currentValue;
       this.graphService.getClientABCTimeline(this.client).subscribe((response: any[]) => {
         console.log("graph response:", response);
-        this.createSvg();
+        if(!this.svg) this.createSvg();
         this.drawBars(response);
       })
     }
