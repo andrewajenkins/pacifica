@@ -18,4 +18,4 @@ ssh -i ../pacifica-website.cer ec2-user@52.35.184.192 \
   'aws ecr get-login-password | docker login --username AWS --password-stdin 437884575683.dkr.ecr.us-west-2.amazonaws.com/pacifica-website-private;
   docker pull 437884575683.dkr.ecr.us-west-2.amazonaws.com/pacifica-website-private:pacifica-frontend-0-1;
   docker pull 437884575683.dkr.ecr.us-west-2.amazonaws.com/pacifica-website-private:pacifica-web-0-1;
-  docker-compose -f production.yml up'
+  docker-compose -f production.yml restart'

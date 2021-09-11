@@ -1,6 +1,8 @@
-<p>dashboard works!</p>
+<h1 class="text-center">Client Behavior Dashboard</h1>
+<client-timeline style="display:block; margin:auto; padding-left:340px;"
+                 [dataSource]="allData" [client]="'All'" [title]="'90 Day Total Weekly ABC Count'"
+                 [id]="'total-count'"></client-timeline>
 <app-clientselector [clients]="clients" (clientSelectedOutput)="onClientSelectChange($event)"></app-clientselector>
-
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
@@ -11,5 +13,6 @@
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
 
-<client-timeline [dataSource]="allData" [client]="'All'" [title]="'90 Day Total Weekly ABC Count'" [id]="'total-count'"></client-timeline>
-<client-timeline *ngIf="selected" [dataSource]="allData" [client]="selected" [title]="'90 Day Client Weekly ABC Count'" [id]="'client-count'"></client-timeline>
+<client-timeline *ngIf="selected" style="display:block; margin:auto; padding-left:340px;"
+                 [dataSource]="allData" [client]="selected" [title]="'90 Day Client Weekly ABC Count'"
+                 [id]="'client-count'"></client-timeline>

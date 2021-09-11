@@ -11,8 +11,8 @@ export class ClientTimelineComponent implements OnInit {
 
   private svg;
   private margin = 50;
-  private width = 750 - (this.margin * 2);
-  private height = 400 - (this.margin * 2);
+  private width = 600 - (this.margin * 2);
+  private height = 320 - (this.margin * 2);
   @Input() dataSource: any;
   @Input() client: string;
   @Input() title: string = "DEFAULT CLIENT TIMELINE TITLE";
@@ -25,14 +25,11 @@ export class ClientTimelineComponent implements OnInit {
 
   ngOnChanges(changes) {
     if (changes.dataSource) {
-      console.log("this.dataSource changed child:", this.dataSource);
       this.dataSource = changes.dataSource.currentValue;
     }
     if (changes.client) {
-      console.log("client changed child:", changes.client);
       this.client = changes.client.currentValue;
       this.graphService.getClientABCTimeline(this.client).subscribe((response: any[]) => {
-        console.log("graph response:", response);
         if(!this.svg) this.createSvg();
         this.drawBars(response);
       })
@@ -45,7 +42,7 @@ export class ClientTimelineComponent implements OnInit {
       .attr("width", this.width + (this.margin * 2))
       .attr("height", this.height + (this.margin * 2))
       .append("g")
-      .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
+      .attr("transform", "translate(" + this.margin + ",20)");
   }
 
   private drawBars(data: any[]): void {
@@ -53,7 +50,7 @@ export class ClientTimelineComponent implements OnInit {
     // Create the X-axis band scale
     const x = d3.scaleBand()
       .range([0, this.width])
-      .domain(data.map(entry => entry.timestamp))
+      .domain(data.map(entry => entry.timestamp).sort())
       .padding(0.2);
 
     // Draw the X-axis on the DOM
@@ -82,6 +79,6 @@ export class ClientTimelineComponent implements OnInit {
       .attr("y", d => y(d.count))
       .attr("width", x.bandwidth())
       .attr("height", (d) => this.height - y(d.count))
-      .attr("fill", "#d04a35");
+      .attr("fill", "#35b1d0");
   }
 }

@@ -20,7 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
       this.router.navigate(['/login']);
     }
     if (token != null) {
-      console.log("found token, clone something...")
       authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
     }
     return next.handle(authReq);

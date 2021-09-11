@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("init home page - query abc data...")
-    // this.reportService.triggerDataUpdate().subscribe();
+    this.reportService.triggerDataUpdate().subscribe(k=>console.log("finished loading data"));
   }
 }

@@ -73,7 +73,7 @@ class GraphView(APIView):
             client_obj = Client.objects.get(first_name=client_name.strip())
             filter_query = Q(client=client_obj, timestamp__gte=enddate)
 
-        abcs = ABC.objects.filter(filter_query).order_by("timestamp")
+        abcs = ABC.objects.filter(filter_query)
 
         abc_weekly_count = []
         for i in range(0, 11):
@@ -81,7 +81,7 @@ class GraphView(APIView):
             range_abcs = abcs.filter(timestamp__range=[end_date, startdate]).count()
             startdate = end_date - timedelta(days=1)
             abc_weekly_count.append({
-                "timestamp": startdate,
+                "timestamp": startdate.date(),
                 "count": range_abcs
             })
 

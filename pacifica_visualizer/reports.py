@@ -7,6 +7,8 @@ import os.path
 
 from datetime import datetime, timedelta
 
+from django.core.exceptions import MultipleObjectsReturned
+from django.db import IntegrityError
 from django.http import FileResponse
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -35,7 +37,7 @@ def update_abcs():
     reports = []
     record_index = 0;
     for client in Client.objects.all():
-        print(client.first_name)
+        # print(client.first_name)
         timestamp_index = 0
         staff_index = 0
         notes_index = None
@@ -47,7 +49,7 @@ def update_abcs():
         ipp_index = None
         client_values = []
         new_sheet_range = get_range(1, 500)
-        print("getting new_sheet_range " + new_sheet_range)
+        # print("getting new_sheet_range " + new_sheet_range)
         result = sheet.values().get(spreadsheetId=client.abcs_id,
                                     range=new_sheet_range).execute()
 
@@ -58,7 +60,7 @@ def update_abcs():
             break
 
         for i, entry in enumerate(client_values[0]):
-            print(i, entry)
+            # print(i, entry)
             if 'name' in entry.lower():
                 staff_index = i
             if 'Note' in entry:
@@ -96,10 +98,10 @@ def update_abcs():
                 ipp=report[ipp_index] if ipp_index and len(report) > ipp_index else None,
                 notes=report[notes_index] if notes_index and len(report) > notes_index else None,
             )
-            if created:
-                logger.info(f"created abc: {abc}")
-            else:
-                logger.info(f"abc already exists: {abc}")
+            # if created:
+            #     logger.info(f"created abc: {abc}")
+            # else:
+            #     logger.info(f"abc already exists: {abc}")
 
 
 def update_dailies():
@@ -111,13 +113,13 @@ def update_dailies():
     sheet = service.spreadsheets()
     for client in Client.objects.all():
         for id in [{ "ant": "AM", "notes_id": client.am_notes_id}, {"ant": "PM", "notes_id": client.pm_notes_id}]:
-            print(client.first_name)
+            # print(client.first_name)
             timestamp_index = 0
             staff_index = None
             notes_index = None
             client_values = []
             new_sheet_range = get_range(1, 1000)
-            print("getting new_sheet_range " + new_sheet_range)
+            # print("getting new_sheet_range " + new_sheet_range)
             result = sheet.values().get(spreadsheetId=id['notes_id'],
                                         range=new_sheet_range).execute()
 
@@ -128,7 +130,7 @@ def update_dailies():
                 break
 
             for i, entry in enumerate(client_values[0]):
-                print(i, entry)
+                # print(i, entry)
                 if 'Staff' in entry:
                     staff_index = i
                 if 'Notes' in entry:
@@ -154,28 +156,31 @@ def update_dailies():
                         pass
 
                 if (datetime.now() - timedelta(days=90)) < my_timestamp:
-                    note, created = DailyNote.objects.get_or_create(
-                        timestamp=my_timestamp,
-                        client=client,
-                        staff=report[staff_index] if staff_index and len(report) > staff_index else None,
-                        period=id['ant'],
-                        notes=report[notes_index] if notes_index and len(report) > notes_index else None,
-                        headers=json.dumps(header_row),
-                        raw_data=json.dumps(report),
-                    )
-                    if created:
-                        logger.info(f"created note: {note}")
-                    else:
-                        logger.info(f"note already exists: {note}")
-                else:
-                    logger.info(f"skipped note, too old! {my_timestamp}")
+                    try:
+                        note, created = DailyNote.objects.get_or_create(
+                            timestamp=my_timestamp,
+                            client=client,
+                            staff=report[staff_index] if staff_index and len(report) > staff_index else None,
+                            period=id['ant'],
+                            notes=report[notes_index] if notes_index and len(report) > notes_index else None,
+                            headers=json.dumps(header_row),
+                            raw_data=json.dumps(report),
+                        )
+                    except (IntegrityError, MultipleObjectsReturned):
+                        pass
+                #     if created:
+                #         logger.info(f"created note: {note}")
+                #     else:
+                #         logger.info(f"note already exists: {note}")
+                # else:
+                #     logger.info(f"skipped note, too old! {my_timestamp}")
 
 
 def archive_reports(delta_days):
     notes_to_archive = DailyNote.objects.filter(timestamp__gte=(datetime.now() - timedelta(days=int(delta_days))))
-    for entry in notes_to_archive:
-        logger.info(f"include entry {entry.timestamp}")
-    logger.info(f"count: {notes_to_archive.count()}")
+    # for entry in notes_to_archive:
+    #     logger.info(f"include entry {entry.timestamp}")
+    # logger.info(f"count: {notes_to_archive.count()}")
 
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=landscape(letter),
