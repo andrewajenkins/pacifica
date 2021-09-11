@@ -15,8 +15,8 @@ class Client(models.Model):
     am_notes_id = models.CharField(max_length=200, blank=False, default='')
     pm_notes_id = models.CharField(max_length=200, blank=False, default='')
 
-    def __str__(self):
-        return "{} {}".format(self.first_name, self.last_name)
+    # def __str__(self):
+    #     return "{} {}".format(self.first_name, self.last_name)
 
 
 class Message(models.Model):

@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
     "ipp", "quarterly"//, "annual"
   ]
   filteredIPPs: string[];
-  selected: string = "All";
+  selected: string;
 
   constructor(private reportService: ReportService, private dataService: GraphService) {
     let foundData = localStorage.getItem('abcData');

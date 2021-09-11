@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pacifica_visualizer.apps.PacificaVisualizerConfig',
     'corsheaders',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [

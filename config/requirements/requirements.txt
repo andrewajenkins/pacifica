@@ -8,3 +8,4 @@ google-auth-oauthlib
 djangorestframework-simplejwt
 arrow
 reportlab
+django-debug-toolbar
