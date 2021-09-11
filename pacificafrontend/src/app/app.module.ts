@@ -34,6 +34,7 @@ import { MessageBoardComponent } from './components/message-board/message-board.
 import { ArchiveComponent } from './components/archive/archive.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ClientselectorComponent } from './components/clientselector/clientselector.component';
+import { ClientTimelineComponent } from './components/charts/client-timeline/client-timeline.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { ClientselectorComponent } from './components/clientselector/clientselec
     MessageBoardComponent,
     ArchiveComponent,
     DashboardComponent,
-    ClientselectorComponent
+    ClientselectorComponent,
+    ClientTimelineComponent
   ],
   imports: [
     BrowserModule,

@@ -10,3 +10,8 @@
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
+
+<h2>Bar Chart</h2>
+<figure id="bar"></figure>
+
+<client-timeline [dataSource]="allData" [client]="selected"></client-timeline>

@@ -56,3 +56,13 @@ class DailyNoteSerializer(serializers.ModelSerializer):
                   'notes',
                   'headers',
                   'raw_data',)
+
+# class GraphSerializer(serializers.ModelSerializer):
+#     client = CharField(source="client.first_name", default=None)
+#     client = CharField(source="client.first_name", default=None)
+#
+#     class Meta:
+#         model = ABC
+#         fields = ('id',
+#                   'timestamp',
+#                   'count',)
