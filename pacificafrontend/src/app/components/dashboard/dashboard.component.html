@@ -11,7 +11,8 @@
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
 
-<h2>Bar Chart</h2>
-<figure id="bar"></figure>
+<!--<h2>Bar Chart</h2>-->
+<!--<figure id="bar"></figure>-->
 
-<client-timeline [dataSource]="allData" [client]="selected"></client-timeline>
+<client-timeline [dataSource]="allData" [client]="'All'" [title]="'90 Day Total Weekly ABC Count'" [id]="'total-count'"></client-timeline>
+<client-timeline [dataSource]="allData" [client]="selected" [title]="'90 Day Client Weekly ABC Count'" [id]="'client-count'"></client-timeline>
