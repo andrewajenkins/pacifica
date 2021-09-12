@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Report} from "../../models/report.model";
 import {Router} from "@angular/router";
 import {TokenStorageService} from "../../services/token-storage.service";
@@ -8,6 +8,7 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {DatePipe} from "@angular/common";
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-abc-list',
@@ -31,6 +32,7 @@ export class AbcListComponent implements OnInit {
   ippCtrl = new FormControl();
   filteredIPPs: string[];
   ipps: string[] = [];
+  isLoading = false
 
   @ViewChild('fruitInput') ippInput: ElementRef<HTMLInputElement> | undefined;
 
@@ -38,6 +40,7 @@ export class AbcListComponent implements OnInit {
     private router: Router,
     private tokenStorage: TokenStorageService,
     private reportService: ReportService,
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +48,8 @@ export class AbcListComponent implements OnInit {
     if(foundData) {
       this.initializeData(JSON.parse(foundData));
     } else {
+      this.isLoading = true;
+      console.log("set loading!");
       this.reportService.getAllABCs().subscribe(
         (data: Report[]) => {
           data.forEach((k: Report) => {
@@ -53,6 +58,10 @@ export class AbcListComponent implements OnInit {
           })
           localStorage.setItem('abcData', JSON.stringify(data));
           this.initializeData(data);
+          this.ngZone.onStable.pipe(first()).subscribe(() => {
+            console.log('Finished rendering');
+            this.isLoading = false;
+          });
         },
         err => {
           this.content = JSON.parse(err.error).message;

@@ -13,6 +13,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.reportService.triggerDataUpdate().subscribe(k=>console.log("finished loading data"));
+    // this.reportService.triggerDataUpdate().subscribe(k=>console.log("finished loading data"));
   }
 }

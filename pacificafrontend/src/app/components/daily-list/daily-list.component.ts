@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {TokenStorageService} from "../../services/token-storage.service";
 import {ReportService} from "../../services/report.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Report} from "../../models/report.model";
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-daily-list',
@@ -24,11 +25,13 @@ export class DailyListComponent implements OnInit {
   columnsToDisplay = ['timestamp', 'period', 'client', 'staff', 'notes'];
   expandedElement: string | null | undefined;
   headers: any;
+  isLoading: boolean;
 
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
     private sheetService: ReportService,
+    private ngZone: NgZone,
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +43,7 @@ export class DailyListComponent implements OnInit {
       console.log("reportData:", this.reportData[0])
       this.dataSource = this.reportData;
     } else {
+      this.isLoading = true;
       this.sheetService.getAllDaily().subscribe(
         (data: any) => {
           data.forEach((k: Report) => {
@@ -49,6 +53,10 @@ export class DailyListComponent implements OnInit {
           console.log("retrievedData:", data);
           localStorage.setItem('dailyData', JSON.stringify(data));
           this.dataSource = data;
+          this.ngZone.onStable.pipe(first()).subscribe(() => {
+            console.log('Finished rendering');
+            this.isLoading = false;
+          });
         },
           (err: { error: string; }) => {
           this.content = JSON.parse(err.error).message;

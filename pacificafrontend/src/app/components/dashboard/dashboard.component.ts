@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {Report} from "../../models/report.model";
 import {DatePipe} from "@angular/common";
 import {ReportService} from "../../services/report.service";
-import {GraphService} from "../../services/graph.service";
 import {Observable} from "rxjs";
+import {first} from "rxjs/operators";
 
 
 @Component({
@@ -23,12 +23,14 @@ export class DashboardComponent implements OnInit {
     "ipp", "quarterly"
   ]
   selected: string;
+  isLoading: boolean;
 
-  constructor(private reportService: ReportService, private dataService: GraphService) {
+  constructor(private reportService: ReportService, private ngZone: NgZone) {
     let foundData = localStorage.getItem('abcData');
     if(foundData) {
       this.initializeData(JSON.parse(foundData));
     } else {
+      this.isLoading = true;
       this.allABCs$ = this.reportService.getAllABCs()
 
       this.allABCs$.subscribe(
@@ -39,6 +41,10 @@ export class DashboardComponent implements OnInit {
           })
           localStorage.setItem('abcData', JSON.stringify(data));
           this.initializeData(data);
+          this.ngZone.onStable.pipe(first()).subscribe(() => {
+            console.log('Finished rendering');
+            this.isLoading = false;
+          });
         },
         err => {
           this.content = JSON.parse(err.error).message;

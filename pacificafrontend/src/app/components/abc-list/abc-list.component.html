@@ -29,7 +29,7 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
-
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>

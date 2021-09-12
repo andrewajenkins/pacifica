@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ReportService} from "./services/report.service";
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import {MatInputModule} from "@angular/material/input";
 import { HomeComponent } from './components/home/home.component';
@@ -35,6 +35,7 @@ import { ArchiveComponent } from './components/archive/archive.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ClientselectorComponent } from './components/clientselector/clientselector.component';
 import { ClientTimelineComponent } from './components/charts/client-timeline/client-timeline.component';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 
 @NgModule({
@@ -73,6 +74,8 @@ import { ClientTimelineComponent } from './components/charts/client-timeline/cli
     MatSelectModule,
     MatAutocompleteModule,
     MatChipsModule,
+    MatProgressBarModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     ReportService,

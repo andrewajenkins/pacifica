@@ -15,12 +15,17 @@ logger = logging.getLogger(__name__)
 
 class ReportView(APIView):
     def get(self, request):
+        start_time_total = datetime.now()
         if request.query_params.get('type') == 'abc':
+            update_abcs()
             abcs = ABC.objects.all()
             abc_data = ABCSerializer(abcs, many=True).data
+            logger.info(f"returning abcs in {datetime.now() - start_time_total}")
             return Response(abc_data, status.HTTP_200_OK)
         elif request.query_params.get('type') == 'daily':
+            update_dailies(start_time_total)
             dailies = DailyNote.objects.all()
+            logger.info(f"returning notes in {datetime.now() - start_time_total}")
             dailies_data = DailyNoteSerializer(dailies, many=True).data
             return Response(dailies_data, status.HTTP_200_OK)
         elif request.query_params.get('type') == 'file':

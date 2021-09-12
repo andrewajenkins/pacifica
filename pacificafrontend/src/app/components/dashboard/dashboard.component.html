@@ -3,6 +3,7 @@
                  [dataSource]="allData" [client]="'All'" [title]="'90 Day Total Weekly ABC Count'"
                  [id]="'total-count'"></client-timeline>
 <app-clientselector [clients]="clients" (clientSelectedOutput)="onClientSelectChange($event)"></app-clientselector>
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container [matColumnDef]="column" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
