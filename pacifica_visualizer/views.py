@@ -29,11 +29,12 @@ class ReportView(APIView):
             raise LookupError("Failed to find query type")
 
     def post(self, request):
+        start_time_total = datetime.now()
         logger.info("POST to trigger updates!")
         trigger_data_update = request.data.get("trigger_data_update", None)
         if trigger_data_update:
             update_abcs()
-            update_dailies()
+            update_dailies(start_time_total)
         return Response(status.HTTP_204_NO_CONTENT)
 
 

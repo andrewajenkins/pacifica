@@ -37,6 +37,6 @@
   </mat-sidenav-container>
 
   <mat-toolbar class="example-footer">
-    <a href="http://leftcoasttechsolutions.com">©2021 Left Coast Tech Solutions</a>
+    <a *ngIf="isLoggedIn" href="http://leftcoasttechsolutions.com">©2021 Left Coast Tech Solutions</a>
   </mat-toolbar>
 </ng-container>
