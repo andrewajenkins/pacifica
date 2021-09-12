@@ -22,7 +22,7 @@ class ReportView(APIView):
         elif request.query_params.get('type') == 'daily':
             dailies = DailyNote.objects.all()
             dailies_data = DailyNoteSerializer(dailies, many=True).data
-            return Response (dailies_data, status.HTTP_200_OK)
+            return Response(dailies_data, status.HTTP_200_OK)
         elif request.query_params.get('type') == 'file':
             return archive_reports(request.query_params.get('days'))
         else:
@@ -33,8 +33,8 @@ class ReportView(APIView):
         logger.info("POST to trigger updates!")
         trigger_data_update = request.data.get("trigger_data_update", None)
         if trigger_data_update:
-            update_abcs()
             update_dailies(start_time_total)
+            update_abcs()
         return Response(status.HTTP_204_NO_CONTENT)
 
 

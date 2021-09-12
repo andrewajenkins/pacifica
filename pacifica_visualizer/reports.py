@@ -104,84 +104,114 @@ def update_abcs():
             #     logger.info(f"abc already exists: {abc}")
 
 
-
 def update_dailies(start_time_total):
-    credentials = service_account.Credentials.from_service_account_file(secret_file, scopes=scopes)
+    # credentials = service_account.Credentials.from_service_account_file(secret_file, scopes=scopes)
     #
-    service = build('sheets', 'v4', credentials=credentials)
-
-    sheet = service.spreadsheets()
+    # service = build('sheets', 'v4', credentials=credentials)
+    #
+    # sheet = service.spreadsheets()
     threads = []
-
+    notes_to_add = []
+    note_map = {}
+    map_time = datetime.now()
+    notes = DailyNote.objects.all()
+    for note in notes:
+        note_map[note_hash(note)] = note
+    logger.info(f"map time: {datetime.now() - map_time}")
+    logger.info(f"note_map COUNT: {len(note_map)}")
+    # for entry in
+    # {
+    #     'timestamp': self.timestamp,
+    #     'client': self.client.first_name,
+    #     'staff': self.staff,
+    #     'period': self.period,
+    #     'notes': self.notes,
+    # }
     for client in Client.objects.all():
         for id in [{ "ant": "AM", "notes_id": client.am_notes_id}, {"ant": "PM", "notes_id": client.pm_notes_id}]:
-            # threads.append(threading.Thread(target=get_data, kwargs=({'credentials': credentials,'id': id, 'client': client}), daemon=True))
 
+            threads.append(threading.Thread(target=get_data,
+                                            kwargs=({
+                                                # 'credentials': credentials,
+                                                'id': id,
+                                                'client': client,
+                                                'notes_to_add': notes_to_add,
+                                                'note_map': note_map,
+                                            }),
+                                            daemon=True))
 
-            start_time_read = datetime.now()
-            # print(client.first_name)
-            timestamp_index = 0
-            staff_index = None
-            notes_index = None
-            client_values = []
-            new_sheet_range = get_range(1, 1000)
-            # print("getting new_sheet_range " + new_sheet_range)
-            result = sheet.values().get(spreadsheetId=id['notes_id'],
-                                        range=new_sheet_range).execute()
+    # start_time_read = datetime.now()
+            # # print(client.first_name)
+            # timestamp_index = 0
+            # staff_index = None
+            # notes_index = None
+            # client_values = []
+            # new_sheet_range = get_range(1, 1000)
+            # # print("getting new_sheet_range " + new_sheet_range)
+            # result = sheet.values().get(spreadsheetId=id['notes_id'],
+            #                             range=new_sheet_range).execute()
+            #
+            # if 'values' in result:
+            #     client_values = client_values + result.get('values', [])
+            # else:
+            #     print("Failed to find any more values")
+            #     break
+            #
+            # for i, entry in enumerate(client_values[0]):
+            #     # print(i, entry)
+            #     if 'Staff' in entry:
+            #         staff_index = i
+            #     if 'Notes' in entry:
+            #         notes_index = i
+            #
+            # logger.info(f"read time: {datetime.now() - start_time_read}")
+            # start_time_parse = datetime.now()
+            # header_row = client_values.pop(0)
+            # for report in client_values:
+            #     # print("length:" + str(len(report)))
+            #     # print(report)
+            #     try:
+            #         my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y %H:%M:%S")
+            #     except ValueError:
+            #         pass
+            #     if not my_timestamp:
+            #         try:
+            #             my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y")
+            #         except ValueError:
+            #             pass
+            #     if not my_timestamp:
+            #         try:
+            #             my_timestamp = datetime.strptime(report[timestamp_index+1], "%m/%d/%Y")
+            #         except ValueError:
+            #             pass
+            #
+            #     if (datetime.now() - timedelta(days=90)) < my_timestamp:
+            #         try:
+            #             note, created = DailyNote.objects.get_or_create(
+            #                 timestamp=my_timestamp,
+            #                 client=client,
+            #                 staff=report[staff_index] if staff_index and len(report) > staff_index else None,
+            #                 period=id['ant'],
+            #                 notes=report[notes_index] if notes_index and len(report) > notes_index else None,
+            #                 headers=json.dumps(header_row),
+            #                 raw_data=json.dumps(report),
+            #             )
+            #         except (IntegrityError, MultipleObjectsReturned):
+            #             pass
+            #
+            # logger.info(f"parse time: {datetime.now() - start_time_parse}")
+    thread_start = datetime.now()
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    logger.info(f"thread time: {datetime.now() - thread_start}")
+    logger.info(f"notes_to_add COUNT: {len(notes_to_add)}")
 
-            if 'values' in result:
-                client_values = client_values + result.get('values', [])
-            else:
-                print("Failed to find any more values")
-                break
+    bulk_start = datetime.now()
+    DailyNote.objects.bulk_create(notes_to_add)
+    logger.info(f"bulk create time: {datetime.now() - bulk_start}")
 
-            for i, entry in enumerate(client_values[0]):
-                # print(i, entry)
-                if 'Staff' in entry:
-                    staff_index = i
-                if 'Notes' in entry:
-                    notes_index = i
-
-            logger.info(f"read time: {datetime.now() - start_time_read}")
-            start_time_parse = datetime.now()
-            header_row = client_values.pop(0)
-            for report in client_values:
-                # print("length:" + str(len(report)))
-                # print(report)
-                try:
-                    my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y %H:%M:%S")
-                except ValueError:
-                    pass
-                if not my_timestamp:
-                    try:
-                        my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y")
-                    except ValueError:
-                        pass
-                if not my_timestamp:
-                    try:
-                        my_timestamp = datetime.strptime(report[timestamp_index+1], "%m/%d/%Y")
-                    except ValueError:
-                        pass
-
-                if (datetime.now() - timedelta(days=90)) < my_timestamp:
-                    try:
-                        note, created = DailyNote.objects.get_or_create(
-                            timestamp=my_timestamp,
-                            client=client,
-                            staff=report[staff_index] if staff_index and len(report) > staff_index else None,
-                            period=id['ant'],
-                            notes=report[notes_index] if notes_index and len(report) > notes_index else None,
-                            headers=json.dumps(header_row),
-                            raw_data=json.dumps(report),
-                        )
-                    except (IntegrityError, MultipleObjectsReturned):
-                        pass
-
-            logger.info(f"parse time: {datetime.now() - start_time_parse}")
-    # for t in threads:
-    #     t.start()
-    # for t in threads:
-    #     t.join()
     logger.info(f"total time: {datetime.now() - start_time_total}")
 
                 #     if created:
@@ -192,24 +222,29 @@ def update_dailies(start_time_total):
                 #     logger.info(f"skipped note, too old! {my_timestamp}")
 
 def get_data(**kwargs):
-    print(kwargs)
+    debug = False
+    if debug: print(kwargs)
     id = kwargs['id']
     # sheet = kwargs['sheet']
-    credentials = kwargs['credentials']
+    # credentials = kwargs['credentials']
     client = kwargs['client']
+    notes_to_add = kwargs['notes_to_add']
+    note_map = kwargs['note_map']
     start_time_read = datetime.now()
-
+    init_start = datetime.now()
+    credentials = service_account.Credentials.from_service_account_file(secret_file, scopes=scopes)
 
     service = build('sheets', 'v4', credentials=credentials)
 
     sheet = service.spreadsheets()
-    # print(client.first_name)
+    logger.info(f"init time: {datetime.now() - init_start}")
+    if debug: print(client.first_name)
     timestamp_index = 0
     staff_index = None
     notes_index = None
     client_values = []
     new_sheet_range = get_range(1, 1000)
-    # print("getting new_sheet_range " + new_sheet_range)
+    if debug: print("getting new_sheet_range " + new_sheet_range)
     result = sheet.values().get(spreadsheetId=id['notes_id'],
                                 range=new_sheet_range).execute()
 
@@ -220,7 +255,7 @@ def get_data(**kwargs):
         return
 
     for i, entry in enumerate(client_values[0]):
-        # print(i, entry)
+        if debug: print(i, entry)
         if 'Staff' in entry:
             staff_index = i
         if 'Notes' in entry:
@@ -230,8 +265,8 @@ def get_data(**kwargs):
     start_time_parse = datetime.now()
     header_row = client_values.pop(0)
     for report in client_values:
-        # print("length:" + str(len(report)))
-        # print(report)
+        if debug: print("length:" + str(len(report)))
+        if debug: print(report)
         try:
             my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y %H:%M:%S")
         except ValueError:
@@ -248,18 +283,18 @@ def get_data(**kwargs):
                 pass
 
         if (datetime.now() - timedelta(days=90)) < my_timestamp:
-            try:
-                note, created = DailyNote.objects.get_or_create(
-                    timestamp=my_timestamp,
-                    client=client,
-                    staff=report[staff_index] if staff_index and len(report) > staff_index else None,
-                    period=id['ant'],
-                    notes=report[notes_index] if notes_index and len(report) > notes_index else None,
-                    headers=json.dumps(header_row),
-                    raw_data=json.dumps(report),
-                )
-            except (IntegrityError, MultipleObjectsReturned):
-                pass
+            note = DailyNote(
+                timestamp=my_timestamp,
+                client=client,
+                staff=report[staff_index] if staff_index and len(report) > staff_index else None,
+                period=id['ant'],
+                notes=report[notes_index] if notes_index and len(report) > notes_index else None,
+                headers=json.dumps(header_row),
+                raw_data=json.dumps(report),
+            )
+            if note_hash(note) not in note_map:
+                notes_to_add.append(note)
+
 
     logger.info(f"parse time: {datetime.now() - start_time_parse}")
 
@@ -304,6 +339,16 @@ def archive_reports(delta_days):
     buffer.seek(0)
     logger.info("returning file")
     return FileResponse(buffer, as_attachment=True, filename="archived_report_"+str(datetime.now())+".pdf")
+
+
+def note_hash(self):
+    return hash(
+        str(self.timestamp) if self.timestamp else ""
+        + self.client.first_name
+        + self.staff
+        + self.period
+        + self.notes
+    )
 
 
 def get_range(start, end):
