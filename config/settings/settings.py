@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from dotenv import load_dotenv
 import os
+from os.path import join, dirname
 from datetime import timedelta
 from pathlib import Path
 
@@ -21,7 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lps(_cepq3d7#$7nci&4qu8=*elcfvr+s(8s#)77y_moob+@ww'
+
+
+# Add .env variables anywhere before SECRET_KEY
+dotenv_path = './.env'
+load_dotenv(dotenv_path)
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
+# DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

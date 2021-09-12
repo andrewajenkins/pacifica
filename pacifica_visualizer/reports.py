@@ -108,80 +108,80 @@ def update_abcs():
 def update_dailies(start_time_total):
     credentials = service_account.Credentials.from_service_account_file(secret_file, scopes=scopes)
     #
-    # service = build('sheets', 'v4', credentials=credentials)
-    #
-    # sheet = service.spreadsheets()
+    service = build('sheets', 'v4', credentials=credentials)
+
+    sheet = service.spreadsheets()
     threads = []
 
     for client in Client.objects.all():
         for id in [{ "ant": "AM", "notes_id": client.am_notes_id}, {"ant": "PM", "notes_id": client.pm_notes_id}]:
-            threads.append(threading.Thread(target=get_data, kwargs=({'credentials': credentials,'id': id, 'client': client}), daemon=True))
+            # threads.append(threading.Thread(target=get_data, kwargs=({'credentials': credentials,'id': id, 'client': client}), daemon=True))
 
-            #
-            # start_time_read = datetime.now()
-            # # print(client.first_name)
-            # timestamp_index = 0
-            # staff_index = None
-            # notes_index = None
-            # client_values = []
-            # new_sheet_range = get_range(1, 1000)
-            # # print("getting new_sheet_range " + new_sheet_range)
-            # result = sheet.values().get(spreadsheetId=id['notes_id'],
-            #                             range=new_sheet_range).execute()
-            #
-            # if 'values' in result:
-            #     client_values = client_values + result.get('values', [])
-            # else:
-            #     print("Failed to find any more values")
-            #     break
-            #
-            # for i, entry in enumerate(client_values[0]):
-            #     # print(i, entry)
-            #     if 'Staff' in entry:
-            #         staff_index = i
-            #     if 'Notes' in entry:
-            #         notes_index = i
-            #
-            # logger.info(f"read time: {datetime.now() - start_time_read}")
-            # start_time_parse = datetime.now()
-            # header_row = client_values.pop(0)
-            # for report in client_values:
-            #     # print("length:" + str(len(report)))
-            #     # print(report)
-            #     try:
-            #         my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y %H:%M:%S")
-            #     except ValueError:
-            #         pass
-            #     if not my_timestamp:
-            #         try:
-            #             my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y")
-            #         except ValueError:
-            #             pass
-            #     if not my_timestamp:
-            #         try:
-            #             my_timestamp = datetime.strptime(report[timestamp_index+1], "%m/%d/%Y")
-            #         except ValueError:
-            #             pass
-            #
-            #     if (datetime.now() - timedelta(days=90)) < my_timestamp:
-            #         try:
-            #             note, created = DailyNote.objects.get_or_create(
-            #                 timestamp=my_timestamp,
-            #                 client=client,
-            #                 staff=report[staff_index] if staff_index and len(report) > staff_index else None,
-            #                 period=id['ant'],
-            #                 notes=report[notes_index] if notes_index and len(report) > notes_index else None,
-            #                 headers=json.dumps(header_row),
-            #                 raw_data=json.dumps(report),
-            #             )
-            #         except (IntegrityError, MultipleObjectsReturned):
-            #             pass
-            #
-            # logger.info(f"parse time: {datetime.now() - start_time_parse}")
-    for t in threads:
-        t.start()
-    for t in threads:
-        t.join()
+
+            start_time_read = datetime.now()
+            # print(client.first_name)
+            timestamp_index = 0
+            staff_index = None
+            notes_index = None
+            client_values = []
+            new_sheet_range = get_range(1, 1000)
+            # print("getting new_sheet_range " + new_sheet_range)
+            result = sheet.values().get(spreadsheetId=id['notes_id'],
+                                        range=new_sheet_range).execute()
+
+            if 'values' in result:
+                client_values = client_values + result.get('values', [])
+            else:
+                print("Failed to find any more values")
+                break
+
+            for i, entry in enumerate(client_values[0]):
+                # print(i, entry)
+                if 'Staff' in entry:
+                    staff_index = i
+                if 'Notes' in entry:
+                    notes_index = i
+
+            logger.info(f"read time: {datetime.now() - start_time_read}")
+            start_time_parse = datetime.now()
+            header_row = client_values.pop(0)
+            for report in client_values:
+                # print("length:" + str(len(report)))
+                # print(report)
+                try:
+                    my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y %H:%M:%S")
+                except ValueError:
+                    pass
+                if not my_timestamp:
+                    try:
+                        my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y")
+                    except ValueError:
+                        pass
+                if not my_timestamp:
+                    try:
+                        my_timestamp = datetime.strptime(report[timestamp_index+1], "%m/%d/%Y")
+                    except ValueError:
+                        pass
+
+                if (datetime.now() - timedelta(days=90)) < my_timestamp:
+                    try:
+                        note, created = DailyNote.objects.get_or_create(
+                            timestamp=my_timestamp,
+                            client=client,
+                            staff=report[staff_index] if staff_index and len(report) > staff_index else None,
+                            period=id['ant'],
+                            notes=report[notes_index] if notes_index and len(report) > notes_index else None,
+                            headers=json.dumps(header_row),
+                            raw_data=json.dumps(report),
+                        )
+                    except (IntegrityError, MultipleObjectsReturned):
+                        pass
+
+            logger.info(f"parse time: {datetime.now() - start_time_parse}")
+    # for t in threads:
+    #     t.start()
+    # for t in threads:
+    #     t.join()
     logger.info(f"total time: {datetime.now() - start_time_total}")
 
                 #     if created:
@@ -247,19 +247,19 @@ def get_data(**kwargs):
             except ValueError:
                 pass
 
-        # if (datetime.now() - timedelta(days=90)) < my_timestamp:
-        #     try:
-        #         note, created = DailyNote.objects.get_or_create(
-        #             timestamp=my_timestamp,
-        #             client=client,
-        #             staff=report[staff_index] if staff_index and len(report) > staff_index else None,
-        #             period=id['ant'],
-        #             notes=report[notes_index] if notes_index and len(report) > notes_index else None,
-        #             headers=json.dumps(header_row),
-        #             raw_data=json.dumps(report),
-        #         )
-        #     except (IntegrityError, MultipleObjectsReturned):
-        #         pass
+        if (datetime.now() - timedelta(days=90)) < my_timestamp:
+            try:
+                note, created = DailyNote.objects.get_or_create(
+                    timestamp=my_timestamp,
+                    client=client,
+                    staff=report[staff_index] if staff_index and len(report) > staff_index else None,
+                    period=id['ant'],
+                    notes=report[notes_index] if notes_index and len(report) > notes_index else None,
+                    headers=json.dumps(header_row),
+                    raw_data=json.dumps(report),
+                )
+            except (IntegrityError, MultipleObjectsReturned):
+                pass
 
     logger.info(f"parse time: {datetime.now() - start_time_parse}")
 

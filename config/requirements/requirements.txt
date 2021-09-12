@@ -9,3 +9,4 @@ djangorestframework-simplejwt
 arrow
 reportlab
 django-debug-toolbar
+python-dotenv

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-docker container prune -f
 docker-compose stop
-#docker-compose build db
-#docker-compose build web
+docker container prune -f
+docker-compose build db
+docker-compose build web
 #docker-compose build static
 docker-compose up -d db
 #docker-compose up -d static

@@ -12,6 +12,7 @@ docker push 437884575683.dkr.ecr.us-west-2.amazonaws.com/pacifica-website-privat
 
 # push production.yml
 scp -i ../pacifica-website.cer -r $(pwd)/tools/docker/compose/production.yml ec2-user@52.35.184.192:/home/ec2-user/
+scp -i ../pacifica-website.cer -r $(pwd)/.env ec2-user@52.35.184.192:/home/ec2-user/
 
 # ssh pull and up
 ssh -i ../pacifica-website.cer ec2-user@52.35.184.192 \
