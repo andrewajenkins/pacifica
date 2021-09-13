@@ -11,6 +11,7 @@ import {
 import {MessageBoardComponent} from "./components/message-board/message-board.component";
 import {ArchiveComponent} from "./components/archive/archive.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {PageNotFoundComponent} from "./components/page-not-found-component/page-not-found.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,7 +23,7 @@ const routes: Routes = [
   { path: 'archive', component: ArchiveComponent, canActivate: [AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', redirectTo: '' }
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

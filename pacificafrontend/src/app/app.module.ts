@@ -36,6 +36,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ClientselectorComponent } from './components/clientselector/clientselector.component';
 import { ClientTimelineComponent } from './components/charts/client-timeline/client-timeline.component';
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {PageNotFoundComponent} from "./components/page-not-found-component/page-not-found.component";
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     ArchiveComponent,
     DashboardComponent,
     ClientselectorComponent,
-    ClientTimelineComponent
+    ClientTimelineComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
