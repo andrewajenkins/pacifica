@@ -13,17 +13,17 @@
       <mat-list>
         <mat-divider></mat-divider>
         <div *ngIf="isLoggedIn">
-          <mat-list-item><a href="/home" mat-button routerLink="home">Home</a></mat-list-item>
+          <mat-list-item><a mat-button routerLink="home">Home</a></mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item><a href="/abc-list" class="mat-menu-item" routerLink="abc-list">ABCs</a></mat-list-item>
+          <mat-list-item><a class="mat-menu-item" routerLink="abc-list">ABCs</a></mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item><a href="/daily-list" class="mat-menu-item" routerLink="daily-list">Dailies</a></mat-list-item>
+          <mat-list-item><a class="mat-menu-item" routerLink="daily-list">Dailies</a></mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item><a href="/message-board" class="mat-menu-item" routerLink="message-board">Consultant</a></mat-list-item>
+          <mat-list-item><a class="mat-menu-item" routerLink="message-board">Consultant</a></mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item><a class="mat-menu-item" routerLink="archive">Archive</a></mat-list-item>
+          <mat-list-item><a routerLink="archive">Archive</a></mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item><a class="mat-menu-item" routerLink="dashboard">Dashboard</a></mat-list-item>
+          <mat-list-item><a routerLink="dashboard">Dashboard</a></mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item><a href class="mat-menu-item" (click)="logout()">Log out</a></mat-list-item>
         </div>
