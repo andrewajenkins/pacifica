@@ -8,8 +8,6 @@ import threading
 
 from datetime import datetime, timedelta
 
-from django.core.exceptions import MultipleObjectsReturned
-from django.db import IntegrityError
 from django.http import FileResponse
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -85,18 +83,29 @@ def update_abcs():
             try:
                 my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y %H:%M:%S")
             except ValueError:
-                my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y")
-            abc, created = ABC.objects.get_or_create(
-                timestamp=my_timestamp,
+                try:
+                    my_timestamp = datetime.strptime(report[timestamp_index], "%m/%d/%Y")
+                except ValueError:
+                    try:
+                        my_timestamp = datetime.strptime(report[timestamp_index+1], "%m/%d/%y")
+                    except ValueError:
+                        print(report)
+                        report[timestamp_index] = datetime.now()
+                        my_timestamp = str(report[timestamp_index])
+
+            abc, created = ABC.objects.update_or_create(
                 client=client,
                 staff=report[staff_index],
-                duration=report[duration_index],
-                place=report[place_index],
-                antecedent=report[antece_index],
                 behavior=report[behavior_index],
-                consequence=report[consequence_index],
-                ipp=report[ipp_index] if ipp_index and len(report) > ipp_index else None,
-                notes=report[notes_index] if notes_index and len(report) > notes_index else None,
+                defaults={
+                    "timestamp": my_timestamp,
+                    "duration": report[duration_index],
+                    "place": report[place_index],
+                    "antecedent": report[antece_index],
+                    "consequence": report[consequence_index],
+                    "ipp": report[ipp_index] if ipp_index and len(report) > ipp_index else None,
+                    "notes": report[notes_index] if notes_index and len(report) > notes_index else None,
+                }
             )
             # if created:
             #     logger.info(f"created abc: {abc}")
